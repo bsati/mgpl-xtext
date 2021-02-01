@@ -1,0 +1,9 @@
+grammar org.xtext.example.mydsl.MGPL with org.eclipse.xtext.common.Terminals
+
+generate mGPL "http://www.xtext.org/example/mydsl/MGPL"
+
+Model:
+	game=Game;
+	
+Game:
+	'game' name=ID '(';
