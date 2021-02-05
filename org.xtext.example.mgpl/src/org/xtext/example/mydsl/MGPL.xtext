@@ -1,9 +1,146 @@
 grammar org.xtext.example.mydsl.MGPL with org.eclipse.xtext.common.Terminals
 
 generate mGPL "http://www.xtext.org/example/mydsl/MGPL"
-
-Model:
-	game=Game;
 	
 Game:
-	'game' name=ID '(';
+	'game' name=ID '(' attrAssList=AttrAssList? ')' decl+=Decl* initBlock=StmtBlock functions+=Block*;
+	
+Decl:
+	VarDecl ';' | ObjDecl ';'
+;
+
+VarDecl:
+	type='int' name=ID  value=Init? | type='int' name=ID '[' arrSize=INT ']'
+;
+
+Init:
+	'=' expr=Expr
+;
+
+ObjDecl:
+	type=OBJTYPE name=ID '(' attrAssList=AttrAssList? ')' | type=OBJTYPE name=ID '[' arrSize=INT ']'
+;
+	
+AttrAssList:
+	attrAss += AttrAss (',' attrAss += AttrAss)*
+;
+
+AttrAss:
+	name=ID '=' expr=Expr
+;
+
+StmtBlock:
+	'{' statments+=Stmt* '}'
+;
+
+Stmt:
+	IfStmt | ForStmt | AssStmt ';'
+;
+
+IfStmt:
+	'if' '(' Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?
+;
+
+ForStmt:
+	'for' '(' initStmt=AssStmt ';' endCondition=Expr ';' loopStmt=AssStmt ')' stmtBlock=StmtBlock
+;
+
+AssStmt:
+	var=Var '=' assignment=Expr
+;
+
+Block:
+	AnimBlock | EventBlock
+;
+
+AnimBlock:
+	'animation' name=ID '(' objType=OBJTYPE objName=ID ')' stmtBlock=StmtBlock
+;
+
+EventBlock:
+	'on' key=KEYSTROKE stmtBlock=StmtBlock
+;
+
+Var:
+	name=ID varArray=VarArray? varProp=VarProp?
+;
+
+VarArray:
+	'[' indexExpr=Expr ']'
+;
+
+VarProp: 
+	'.' extId=ID
+;
+
+Expr returns Expression:
+	OrExpr
+;
+
+OrExpr returns Expression:
+	AndExpr ({Operation.left=current} op=OR right=AndExpr)*
+;
+
+AndExpr returns Expression:
+	RelExpr ({Operation.left=current} op=AND right=RelExpr)*
+;
+
+RelExpr returns Expression:
+	AddExpr ({Operation.left=current} op=REL_OP right=AddExpr)*
+;
+
+AddExpr returns Expression:
+	MultExpr ({Operation.left=current} op=(PLUS | MINUS) right=MultExpr)*
+;
+
+MultExpr returns Expression:
+	(UnaryExpr | Atom) ({Operation.left=current} op=(MULT | DIV) (right=UnaryExpr | right=Atom))*
+;
+
+UnaryExpr returns Expression:
+	{UnaryOperation} op=(NOT | MINUS) right=Atom
+;
+
+Atom returns Expression:
+	{IntLiteral} value=INT | Var ({Operation.left=current} op='touches' right=Var)? | {ExprVar} '(' expr=Expr ')'
+;
+
+terminal OBJTYPE:
+	'rectangle' | 'triangle' | 'circle'
+;
+
+terminal KEYSTROKE:
+	'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow'
+;
+
+terminal OR:
+	'||'
+;
+
+terminal AND:
+	'&&'
+;
+
+terminal REL_OP:
+	'==' | '<' | '<='
+;
+
+terminal MULT:
+	'*'
+;
+
+terminal DIV:
+	'/'
+;
+
+terminal NOT:
+	'!'
+;
+
+terminal MINUS:
+	'-'
+;
+
+terminal PLUS:
+	'+'
+;
