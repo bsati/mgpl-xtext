@@ -1,7 +1,6 @@
 package org.xtext.example.mydsl.validation;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
 import org.xtext.example.mydsl.mGPL.AnimBlock;
 import org.xtext.example.mydsl.mGPL.AttrAss;
@@ -16,20 +15,20 @@ import org.xtext.example.mydsl.mGPL.VarDecl;
 public class MGPLBindingValidator extends AbstractMGPLValidator {
 	@Check
 	public void checkVariableDeclared(Var var) {
-		if(isAnimation(var)) {
+		if(MGPLValidator.isAnimation(var)) {
 			return;
 		}
-		if(isParameter(var)) {
+		if(MGPLValidator.isParameter(var)) {
 			return;
 		}
 		if(var.getVarArray() != null) {
-			if(findVarDecl(var) == null) {
+			if(MGPLValidator.findVarDecl(var) == null) {
 				error("No valid array declaration found", MGPLPackage.Literals.VAR__VAR_ARRAY, MGPLValidator.NO_MATCHING_DECLARATION);
 			}
 		} else {
 			Game game = (Game) var.eResource().getAllContents().next();
 			if(!var.getName().equals(game.getName())) {
-				Decl d = findVarDecl(var);
+				Decl d = MGPLValidator.findVarDecl(var);
 				if(d == null) {
 					error("The used variable has not been declared", MGPLPackage.Literals.VAR__VAR_PROP, MGPLValidator.NO_MATCHING_DECLARATION);
 				}
@@ -61,30 +60,6 @@ public class MGPLBindingValidator extends AbstractMGPLValidator {
 		}
 	}
 	
-	private boolean isParameter(Var var) {
-		EObject container = var.eContainer();
-		while(container != null) {
-			if(container instanceof AnimBlock) {
-				return ((AnimBlock) container).getObjName().equals(var.getName());
-			}
-			container = container.eContainer();
-		}
-		return false;
-	}
-	
-	private boolean isAnimation(Var var) {
-		Game game = (Game) var.eResource().getAllContents().next();
-		for(Block b : game.getFunctions()) {
-			if(b instanceof AnimBlock) {
-				AnimBlock anim = (AnimBlock) b;
-				if(anim.getName().equals(var.getName())) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
 	private AttrAss findAttributeAssignment(Var var, ObjDecl d) {
 		EList<AttrAss> searchList;
 		if(d == null) {
@@ -108,22 +83,6 @@ public class MGPLBindingValidator extends AbstractMGPLValidator {
 				AnimBlock bCast = (AnimBlock) b;
 				if(bCast.getName().equals(((Var) assignment.getExpr()).getName()) && bCast.getObjType().equals(((ObjDecl) assignment.eContainer().eContainer()).getType())) {
 					return bCast;
-				}
-			}
-		}
-		return null;
-	}
-	
-	private Decl findVarDecl(Var var) {
-		Game game = (Game) var.eResource().getAllContents().next();
-		for(Decl d : game.getDecl()) {
-			if(d.getName().equals(var.getName())) {
-				if(var.getVarArray() != null) {
-					if(d.getArrSize() > 0) {
-						return d;
-					}
-				} else {
-					return d;
 				}
 			}
 		}

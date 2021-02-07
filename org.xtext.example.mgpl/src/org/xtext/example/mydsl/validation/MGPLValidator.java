@@ -3,6 +3,13 @@
  */
 package org.xtext.example.mydsl.validation;
 
+import org.eclipse.emf.ecore.EObject;
+import org.xtext.example.mydsl.mGPL.AnimBlock;
+import org.xtext.example.mydsl.mGPL.Block;
+import org.xtext.example.mydsl.mGPL.Decl;
+import org.xtext.example.mydsl.mGPL.Game;
+import org.xtext.example.mydsl.mGPL.Var;
+
 /**
  * This class contains custom validation rules. 
  *
@@ -19,4 +26,46 @@ public class MGPLValidator extends AbstractMGPLValidator {
 	public static final String NO_MATCHING_ANIM_BLOCK = "noMatchingAnimationBlock";
 	public static final String INVALID_PROPERTY_ACCESS = "invalidPropertyAccess";
 	public static final String NO_MATCHING_PROPERTY = "noMatchingProperty";
+	public static final String ILLEGAL_LEFT_SIDE = "illegalOperationLeftSide";
+	public static final String ILLEGAL_RIGHT_SIDE = "illegalOperationRightSide";
+	
+	public static boolean isParameter(Var var) {
+		EObject container = var.eContainer();
+		while(container != null) {
+			if(container instanceof AnimBlock) {
+				return ((AnimBlock) container).getObjName().equals(var.getName());
+			}
+			container = container.eContainer();
+		}
+		return false;
+	}
+	
+	public static Decl findVarDecl(Var var) {
+		Game game = (Game) var.eResource().getAllContents().next();
+		for(Decl d : game.getDecl()) {
+			if(d.getName().equals(var.getName())) {
+				if(var.getVarArray() != null) {
+					if(d.getArrSize() > 0) {
+						return d;
+					}
+				} else {
+					return d;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static boolean isAnimation(Var var) {
+		Game game = (Game) var.eResource().getAllContents().next();
+		for(Block b : game.getFunctions()) {
+			if(b instanceof AnimBlock) {
+				AnimBlock anim = (AnimBlock) b;
+				if(anim.getName().equals(var.getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
