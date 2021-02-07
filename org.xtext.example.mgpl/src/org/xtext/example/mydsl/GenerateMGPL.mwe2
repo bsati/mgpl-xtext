@@ -43,6 +43,8 @@ Workflow {
 				generateDeprecationValidation = true
 				composedCheck = "org.xtext.example.mydsl.validation.attributes.MGPLAttributeValidator"
 				composedCheck = "org.xtext.example.mydsl.validation.MGPLVariableValidator"
+				composedCheck = "org.xtext.example.mydsl.validation.MGPLBindingValidator"
+				composedCheck = "org.xtext.example.mydsl.validation.MGPLExpressionValidator"
 			}
 			generator = {
 				generateXtendStub = true

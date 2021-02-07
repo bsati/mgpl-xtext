@@ -41,8 +41,6 @@ import org.xtext.example.mydsl.mGPL.VarProp;
  */
 @SuppressWarnings("all")
 public class MGPLGenerator extends AbstractGenerator {
-  private final String basePackage = "com.games.mpgl";
-  
   private MGPLMapperUtil util = new MGPLMapperUtil();
   
   @Override
@@ -529,7 +527,7 @@ public class MGPLGenerator extends AbstractGenerator {
         _builder.append(") {");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        Object _generateStatements = this.generateStatements(ifStmt.getConsequence());
+        String _generateStatements = this.generateStatements(ifStmt.getConsequence());
         _builder.append(_generateStatements, "\t");
         _builder.newLineIfNotEmpty();
         _builder.append("} ");
@@ -540,7 +538,7 @@ public class MGPLGenerator extends AbstractGenerator {
             _builder.append(" else {");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
-            Object _generateStatements_1 = this.generateStatements(ifStmt.getAlternative());
+            String _generateStatements_1 = this.generateStatements(ifStmt.getAlternative());
             _builder.append(_generateStatements_1, "\t");
             _builder.newLineIfNotEmpty();
             _builder.append("} ");
@@ -565,7 +563,7 @@ public class MGPLGenerator extends AbstractGenerator {
           _builder_1.append(") {");
           _builder_1.newLineIfNotEmpty();
           _builder_1.append("\t");
-          Object _generateStatements_2 = this.generateStatements(forStmt.getStmtBlock());
+          String _generateStatements_2 = this.generateStatements(forStmt.getStmtBlock());
           _builder_1.append(_generateStatements_2, "\t");
           _builder_1.newLineIfNotEmpty();
           _builder_1.append("}");

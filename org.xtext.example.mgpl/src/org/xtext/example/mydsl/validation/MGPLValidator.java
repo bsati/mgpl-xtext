@@ -3,15 +3,6 @@
  */
 package org.xtext.example.mydsl.validation;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.xtext.validation.Check;
-import org.xtext.example.mydsl.mGPL.AttrAssList;
-import org.xtext.example.mydsl.mGPL.Game;
-import org.xtext.example.mydsl.mGPL.MGPLPackage;
-
 /**
  * This class contains custom validation rules. 
  *
@@ -23,15 +14,9 @@ public class MGPLValidator extends AbstractMGPLValidator {
 	public static final String ONLY_CONSTANTS = "onlyConstants";
 	public static final String ILLEGAL_VALUE = "illegalValue";
 	public static final String ILLEGAL_ATTRIBUTE_NAME = "illegalAttributeName";
-	
-//	public static final String INVALID_NAME = "invalidName";
-//
-//	@Check
-//	public void checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.getName().charAt(0))) {
-//			warning("Name should start with a capital",
-//					MGPLPackage.Literals.GREETING__NAME,
-//					INVALID_NAME);
-//		}
-//	}
+	public static final String DUPLICATE_DECLARATION = "duplicateDeclaration";
+	public static final String NO_MATCHING_DECLARATION = "noMatchingDeclaration";
+	public static final String NO_MATCHING_ANIM_BLOCK = "noMatchingAnimationBlock";
+	public static final String INVALID_PROPERTY_ACCESS = "invalidPropertyAccess";
+	public static final String NO_MATCHING_PROPERTY = "noMatchingProperty";
 }

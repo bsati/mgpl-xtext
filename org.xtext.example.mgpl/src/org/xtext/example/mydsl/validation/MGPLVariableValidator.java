@@ -17,7 +17,7 @@ public class MGPLVariableValidator extends AbstractMGPLValidator {
 				if(v == null) {
 					return 1;
 				} else {
-					error("Duplicate declaration of " + d.getName(), MGPLPackage.Literals.GAME__DECL);
+					error("Duplicate declaration of " + d.getName(), MGPLPackage.Literals.GAME__DECL, MGPLValidator.DUPLICATE_DECLARATION);
 					return v++;
 				}
 			});

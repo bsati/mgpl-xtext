@@ -8,16 +8,11 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.xtext.example.mydsl.mGPL.Game
-import java.io.File
-import java.nio.file.Files
 import org.eclipse.emf.common.util.EList
 import org.xtext.example.mydsl.mGPL.AttrAss
-import com.google.common.io.Resources
-import java.nio.charset.StandardCharsets
 import org.xtext.example.mydsl.mGPL.VarDecl
 import org.xtext.example.mydsl.mGPL.AnimBlock
 import org.xtext.example.mydsl.mGPL.EventBlock
-import org.xtext.example.mydsl.mGPL.Stmt
 import org.xtext.example.mydsl.mGPL.StmtBlock
 import org.xtext.example.mydsl.mGPL.ObjDecl
 import org.xtext.example.mydsl.mGPL.IfStmt
@@ -31,8 +26,6 @@ import org.xtext.example.mydsl.mGPL.Var
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class MGPLGenerator extends AbstractGenerator {
-	
-	private val String basePackage = "com.games.mpgl";
 	MGPLMapperUtil util = new MGPLMapperUtil
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
@@ -199,7 +192,7 @@ class MGPLGenerator extends AbstractGenerator {
 		return result
 	}
 	
-	def generateStatements(StmtBlock block) {
+	def String generateStatements(StmtBlock block) {
 		if(block === null) {
 			return ""
 		}
