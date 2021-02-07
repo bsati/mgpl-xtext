@@ -30,7 +30,7 @@ AttrAss:
 ;
 
 StmtBlock:
-	'{' statments+=Stmt* '}'
+	'{' statements+=Stmt* '}'
 ;
 
 Stmt:
@@ -38,7 +38,7 @@ Stmt:
 ;
 
 IfStmt:
-	'if' '(' Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?
+	'if' '(' condition=Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?
 ;
 
 ForStmt:

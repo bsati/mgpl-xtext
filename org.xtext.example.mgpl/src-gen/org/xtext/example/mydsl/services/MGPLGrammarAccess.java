@@ -372,25 +372,25 @@ public class MGPLGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.example.mydsl.MGPL.StmtBlock");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cLeftCurlyBracketKeyword_0 = (Keyword)cGroup.eContents().get(0);
-		private final Assignment cStatmentsAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cStatmentsStmtParserRuleCall_1_0 = (RuleCall)cStatmentsAssignment_1.eContents().get(0);
+		private final Assignment cStatementsAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cStatementsStmtParserRuleCall_1_0 = (RuleCall)cStatementsAssignment_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//StmtBlock:
-		//	'{' statments+=Stmt* '}';
+		//	'{' statements+=Stmt* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'{' statments+=Stmt* '}'
+		//'{' statements+=Stmt* '}'
 		public Group getGroup() { return cGroup; }
 		
 		//'{'
 		public Keyword getLeftCurlyBracketKeyword_0() { return cLeftCurlyBracketKeyword_0; }
 		
-		//statments+=Stmt*
-		public Assignment getStatmentsAssignment_1() { return cStatmentsAssignment_1; }
+		//statements+=Stmt*
+		public Assignment getStatementsAssignment_1() { return cStatementsAssignment_1; }
 		
 		//Stmt
-		public RuleCall getStatmentsStmtParserRuleCall_1_0() { return cStatmentsStmtParserRuleCall_1_0; }
+		public RuleCall getStatementsStmtParserRuleCall_1_0() { return cStatementsStmtParserRuleCall_1_0; }
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_2() { return cRightCurlyBracketKeyword_2; }
@@ -431,7 +431,8 @@ public class MGPLGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cIfKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final RuleCall cExprParserRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
+		private final Assignment cConditionAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cConditionExprParserRuleCall_2_0 = (RuleCall)cConditionAssignment_2.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		private final Assignment cConsequenceAssignment_4 = (Assignment)cGroup.eContents().get(4);
 		private final RuleCall cConsequenceStmtBlockParserRuleCall_4_0 = (RuleCall)cConsequenceAssignment_4.eContents().get(0);
@@ -441,10 +442,10 @@ public class MGPLGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final RuleCall cAlternativeStmtBlockParserRuleCall_5_1_0 = (RuleCall)cAlternativeAssignment_5_1.eContents().get(0);
 		
 		//IfStmt:
-		//	'if' '(' Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?;
+		//	'if' '(' condition=Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'if' '(' Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?
+		//'if' '(' condition=Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?
 		public Group getGroup() { return cGroup; }
 		
 		//'if'
@@ -453,8 +454,11 @@ public class MGPLGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//'('
 		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 		
+		//condition=Expr
+		public Assignment getConditionAssignment_2() { return cConditionAssignment_2; }
+		
 		//Expr
-		public RuleCall getExprParserRuleCall_2() { return cExprParserRuleCall_2; }
+		public RuleCall getConditionExprParserRuleCall_2_0() { return cConditionExprParserRuleCall_2_0; }
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
@@ -1309,7 +1313,7 @@ public class MGPLGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//StmtBlock:
-	//	'{' statments+=Stmt* '}';
+	//	'{' statements+=Stmt* '}';
 	public StmtBlockElements getStmtBlockAccess() {
 		return pStmtBlock;
 	}
@@ -1329,7 +1333,7 @@ public class MGPLGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//IfStmt:
-	//	'if' '(' Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?;
+	//	'if' '(' condition=Expr ')' consequence=StmtBlock ('else' alternative=StmtBlock)?;
 	public IfStmtElements getIfStmtAccess() {
 		return pIfStmt;
 	}

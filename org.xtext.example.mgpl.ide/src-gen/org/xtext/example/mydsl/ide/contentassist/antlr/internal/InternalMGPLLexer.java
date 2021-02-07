@@ -435,10 +435,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_OBJTYPE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5109:14: ( ( 'rectangle' | 'triangle' | 'circle' ) )
-            // InternalMGPL.g:5109:16: ( 'rectangle' | 'triangle' | 'circle' )
+            // InternalMGPL.g:5124:14: ( ( 'rectangle' | 'triangle' | 'circle' ) )
+            // InternalMGPL.g:5124:16: ( 'rectangle' | 'triangle' | 'circle' )
             {
-            // InternalMGPL.g:5109:16: ( 'rectangle' | 'triangle' | 'circle' )
+            // InternalMGPL.g:5124:16: ( 'rectangle' | 'triangle' | 'circle' )
             int alt1=3;
             switch ( input.LA(1) ) {
             case 'r':
@@ -465,7 +465,7 @@ public class InternalMGPLLexer extends Lexer {
 
             switch (alt1) {
                 case 1 :
-                    // InternalMGPL.g:5109:17: 'rectangle'
+                    // InternalMGPL.g:5124:17: 'rectangle'
                     {
                     match("rectangle"); 
 
@@ -473,7 +473,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalMGPL.g:5109:29: 'triangle'
+                    // InternalMGPL.g:5124:29: 'triangle'
                     {
                     match("triangle"); 
 
@@ -481,7 +481,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // InternalMGPL.g:5109:40: 'circle'
+                    // InternalMGPL.g:5124:40: 'circle'
                     {
                     match("circle"); 
 
@@ -507,10 +507,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_KEYSTROKE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5111:16: ( ( 'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow' ) )
-            // InternalMGPL.g:5111:18: ( 'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow' )
+            // InternalMGPL.g:5126:16: ( ( 'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow' ) )
+            // InternalMGPL.g:5126:18: ( 'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow' )
             {
-            // InternalMGPL.g:5111:18: ( 'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow' )
+            // InternalMGPL.g:5126:18: ( 'space' | 'leftarrow' | 'rightarrow' | 'uparrow' | 'downarrow' )
             int alt2=5;
             switch ( input.LA(1) ) {
             case 's':
@@ -547,7 +547,7 @@ public class InternalMGPLLexer extends Lexer {
 
             switch (alt2) {
                 case 1 :
-                    // InternalMGPL.g:5111:19: 'space'
+                    // InternalMGPL.g:5126:19: 'space'
                     {
                     match("space"); 
 
@@ -555,7 +555,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalMGPL.g:5111:27: 'leftarrow'
+                    // InternalMGPL.g:5126:27: 'leftarrow'
                     {
                     match("leftarrow"); 
 
@@ -563,7 +563,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // InternalMGPL.g:5111:39: 'rightarrow'
+                    // InternalMGPL.g:5126:39: 'rightarrow'
                     {
                     match("rightarrow"); 
 
@@ -571,7 +571,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // InternalMGPL.g:5111:52: 'uparrow'
+                    // InternalMGPL.g:5126:52: 'uparrow'
                     {
                     match("uparrow"); 
 
@@ -579,7 +579,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // InternalMGPL.g:5111:62: 'downarrow'
+                    // InternalMGPL.g:5126:62: 'downarrow'
                     {
                     match("downarrow"); 
 
@@ -605,8 +605,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_OR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5113:9: ( '||' )
-            // InternalMGPL.g:5113:11: '||'
+            // InternalMGPL.g:5128:9: ( '||' )
+            // InternalMGPL.g:5128:11: '||'
             {
             match("||"); 
 
@@ -626,8 +626,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_AND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5115:10: ( '&&' )
-            // InternalMGPL.g:5115:12: '&&'
+            // InternalMGPL.g:5130:10: ( '&&' )
+            // InternalMGPL.g:5130:12: '&&'
             {
             match("&&"); 
 
@@ -647,10 +647,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_REL_OP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5117:13: ( ( '==' | '<' | '<=' ) )
-            // InternalMGPL.g:5117:15: ( '==' | '<' | '<=' )
+            // InternalMGPL.g:5132:13: ( ( '==' | '<' | '<=' ) )
+            // InternalMGPL.g:5132:15: ( '==' | '<' | '<=' )
             {
-            // InternalMGPL.g:5117:15: ( '==' | '<' | '<=' )
+            // InternalMGPL.g:5132:15: ( '==' | '<' | '<=' )
             int alt3=3;
             int LA3_0 = input.LA(1);
 
@@ -674,7 +674,7 @@ public class InternalMGPLLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // InternalMGPL.g:5117:16: '=='
+                    // InternalMGPL.g:5132:16: '=='
                     {
                     match("=="); 
 
@@ -682,14 +682,14 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalMGPL.g:5117:21: '<'
+                    // InternalMGPL.g:5132:21: '<'
                     {
                     match('<'); 
 
                     }
                     break;
                 case 3 :
-                    // InternalMGPL.g:5117:25: '<='
+                    // InternalMGPL.g:5132:25: '<='
                     {
                     match("<="); 
 
@@ -715,8 +715,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_MULT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5119:11: ( '*' )
-            // InternalMGPL.g:5119:13: '*'
+            // InternalMGPL.g:5134:11: ( '*' )
+            // InternalMGPL.g:5134:13: '*'
             {
             match('*'); 
 
@@ -735,8 +735,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_DIV;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5121:10: ( '/' )
-            // InternalMGPL.g:5121:12: '/'
+            // InternalMGPL.g:5136:10: ( '/' )
+            // InternalMGPL.g:5136:12: '/'
             {
             match('/'); 
 
@@ -755,8 +755,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5123:10: ( '!' )
-            // InternalMGPL.g:5123:12: '!'
+            // InternalMGPL.g:5138:10: ( '!' )
+            // InternalMGPL.g:5138:12: '!'
             {
             match('!'); 
 
@@ -775,8 +775,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5125:12: ( '-' )
-            // InternalMGPL.g:5125:14: '-'
+            // InternalMGPL.g:5140:12: ( '-' )
+            // InternalMGPL.g:5140:14: '-'
             {
             match('-'); 
 
@@ -795,8 +795,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5127:11: ( '+' )
-            // InternalMGPL.g:5127:13: '+'
+            // InternalMGPL.g:5142:11: ( '+' )
+            // InternalMGPL.g:5142:13: '+'
             {
             match('+'); 
 
@@ -815,10 +815,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5129:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // InternalMGPL.g:5129:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalMGPL.g:5144:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // InternalMGPL.g:5144:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // InternalMGPL.g:5129:11: ( '^' )?
+            // InternalMGPL.g:5144:11: ( '^' )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -827,7 +827,7 @@ public class InternalMGPLLexer extends Lexer {
             }
             switch (alt4) {
                 case 1 :
-                    // InternalMGPL.g:5129:11: '^'
+                    // InternalMGPL.g:5144:11: '^'
                     {
                     match('^'); 
 
@@ -845,7 +845,7 @@ public class InternalMGPLLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalMGPL.g:5129:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // InternalMGPL.g:5144:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop5:
             do {
                 int alt5=2;
@@ -894,10 +894,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5131:10: ( ( '0' .. '9' )+ )
-            // InternalMGPL.g:5131:12: ( '0' .. '9' )+
+            // InternalMGPL.g:5146:10: ( ( '0' .. '9' )+ )
+            // InternalMGPL.g:5146:12: ( '0' .. '9' )+
             {
-            // InternalMGPL.g:5131:12: ( '0' .. '9' )+
+            // InternalMGPL.g:5146:12: ( '0' .. '9' )+
             int cnt6=0;
             loop6:
             do {
@@ -911,7 +911,7 @@ public class InternalMGPLLexer extends Lexer {
 
                 switch (alt6) {
             	case 1 :
-            	    // InternalMGPL.g:5131:13: '0' .. '9'
+            	    // InternalMGPL.g:5146:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -943,10 +943,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5133:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // InternalMGPL.g:5133:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalMGPL.g:5148:13: ( ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // InternalMGPL.g:5148:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // InternalMGPL.g:5133:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // InternalMGPL.g:5148:15: ( '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -964,10 +964,10 @@ public class InternalMGPLLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // InternalMGPL.g:5133:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // InternalMGPL.g:5148:16: '\"' ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // InternalMGPL.g:5133:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // InternalMGPL.g:5148:20: ( '\\\\' . | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop7:
                     do {
                         int alt7=3;
@@ -983,7 +983,7 @@ public class InternalMGPLLexer extends Lexer {
 
                         switch (alt7) {
                     	case 1 :
-                    	    // InternalMGPL.g:5133:21: '\\\\' .
+                    	    // InternalMGPL.g:5148:21: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -991,7 +991,7 @@ public class InternalMGPLLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalMGPL.g:5133:28: ~ ( ( '\\\\' | '\"' ) )
+                    	    // InternalMGPL.g:5148:28: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1016,10 +1016,10 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalMGPL.g:5133:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // InternalMGPL.g:5148:48: '\\'' ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // InternalMGPL.g:5133:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // InternalMGPL.g:5148:53: ( '\\\\' . | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop8:
                     do {
                         int alt8=3;
@@ -1035,7 +1035,7 @@ public class InternalMGPLLexer extends Lexer {
 
                         switch (alt8) {
                     	case 1 :
-                    	    // InternalMGPL.g:5133:54: '\\\\' .
+                    	    // InternalMGPL.g:5148:54: '\\\\' .
                     	    {
                     	    match('\\'); 
                     	    matchAny(); 
@@ -1043,7 +1043,7 @@ public class InternalMGPLLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // InternalMGPL.g:5133:61: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // InternalMGPL.g:5148:61: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1086,12 +1086,12 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5135:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalMGPL.g:5135:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalMGPL.g:5150:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalMGPL.g:5150:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalMGPL.g:5135:24: ( options {greedy=false; } : . )*
+            // InternalMGPL.g:5150:24: ( options {greedy=false; } : . )*
             loop10:
             do {
                 int alt10=2;
@@ -1116,7 +1116,7 @@ public class InternalMGPLLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // InternalMGPL.g:5135:52: .
+            	    // InternalMGPL.g:5150:52: .
             	    {
             	    matchAny(); 
 
@@ -1146,12 +1146,12 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5137:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // InternalMGPL.g:5137:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // InternalMGPL.g:5152:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // InternalMGPL.g:5152:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // InternalMGPL.g:5137:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalMGPL.g:5152:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop11:
             do {
                 int alt11=2;
@@ -1164,7 +1164,7 @@ public class InternalMGPLLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // InternalMGPL.g:5137:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalMGPL.g:5152:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1184,7 +1184,7 @@ public class InternalMGPLLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalMGPL.g:5137:40: ( ( '\\r' )? '\\n' )?
+            // InternalMGPL.g:5152:40: ( ( '\\r' )? '\\n' )?
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -1193,9 +1193,9 @@ public class InternalMGPLLexer extends Lexer {
             }
             switch (alt13) {
                 case 1 :
-                    // InternalMGPL.g:5137:41: ( '\\r' )? '\\n'
+                    // InternalMGPL.g:5152:41: ( '\\r' )? '\\n'
                     {
-                    // InternalMGPL.g:5137:41: ( '\\r' )?
+                    // InternalMGPL.g:5152:41: ( '\\r' )?
                     int alt12=2;
                     int LA12_0 = input.LA(1);
 
@@ -1204,7 +1204,7 @@ public class InternalMGPLLexer extends Lexer {
                     }
                     switch (alt12) {
                         case 1 :
-                            // InternalMGPL.g:5137:41: '\\r'
+                            // InternalMGPL.g:5152:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1236,10 +1236,10 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5139:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalMGPL.g:5139:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalMGPL.g:5154:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalMGPL.g:5154:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalMGPL.g:5139:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalMGPL.g:5154:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt14=0;
             loop14:
             do {
@@ -1293,8 +1293,8 @@ public class InternalMGPLLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalMGPL.g:5141:16: ( . )
-            // InternalMGPL.g:5141:18: .
+            // InternalMGPL.g:5156:16: ( . )
+            // InternalMGPL.g:5156:18: .
             {
             matchAny(); 
 

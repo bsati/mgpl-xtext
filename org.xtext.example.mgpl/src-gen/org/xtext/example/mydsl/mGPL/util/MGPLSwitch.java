@@ -190,8 +190,6 @@ public class MGPLSwitch<T> extends Switch<T>
         Var var = (Var)theEObject;
         T result = caseVar(var);
         if (result == null) result = caseExpression(var);
-        if (result == null) result = caseIfStmt(var);
-        if (result == null) result = caseStmt(var);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -213,8 +211,6 @@ public class MGPLSwitch<T> extends Switch<T>
       {
         Expression expression = (Expression)theEObject;
         T result = caseExpression(expression);
-        if (result == null) result = caseIfStmt(expression);
-        if (result == null) result = caseStmt(expression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -223,8 +219,6 @@ public class MGPLSwitch<T> extends Switch<T>
         Operation operation = (Operation)theEObject;
         T result = caseOperation(operation);
         if (result == null) result = caseExpression(operation);
-        if (result == null) result = caseIfStmt(operation);
-        if (result == null) result = caseStmt(operation);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -233,8 +227,6 @@ public class MGPLSwitch<T> extends Switch<T>
         UnaryOperation unaryOperation = (UnaryOperation)theEObject;
         T result = caseUnaryOperation(unaryOperation);
         if (result == null) result = caseExpression(unaryOperation);
-        if (result == null) result = caseIfStmt(unaryOperation);
-        if (result == null) result = caseStmt(unaryOperation);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -243,8 +235,6 @@ public class MGPLSwitch<T> extends Switch<T>
         IntLiteral intLiteral = (IntLiteral)theEObject;
         T result = caseIntLiteral(intLiteral);
         if (result == null) result = caseExpression(intLiteral);
-        if (result == null) result = caseIfStmt(intLiteral);
-        if (result == null) result = caseStmt(intLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -253,8 +243,6 @@ public class MGPLSwitch<T> extends Switch<T>
         ExprVar exprVar = (ExprVar)theEObject;
         T result = caseExprVar(exprVar);
         if (result == null) result = caseExpression(exprVar);
-        if (result == null) result = caseIfStmt(exprVar);
-        if (result == null) result = caseStmt(exprVar);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }

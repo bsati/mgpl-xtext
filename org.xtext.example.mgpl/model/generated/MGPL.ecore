@@ -39,11 +39,18 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StmtBlock">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="statments" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
         eType="#//Stmt" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Stmt"/>
-  <eClassifiers xsi:type="ecore:EClass" name="IfStmt" eSuperTypes="#//Stmt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IfStmt" eSuperTypes="#//Stmt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="consequence" eType="#//StmtBlock"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="alternative" eType="#//StmtBlock"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ForStmt" eSuperTypes="#//Stmt">
     <eStructuralFeatures xsi:type="ecore:EReference" name="initStmt" eType="#//AssStmt"
         containment="true"/>
@@ -85,12 +92,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="VarProp">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="extId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Expression" eSuperTypes="#//IfStmt">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="consequence" eType="#//StmtBlock"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="alternative" eType="#//StmtBlock"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Expression"/>
   <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//Expression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
         containment="true"/>

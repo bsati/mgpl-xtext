@@ -516,7 +516,7 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
    * @generated
    */
   @Override
-  public EReference getStmtBlock_Statments()
+  public EReference getStmtBlock_Statements()
   {
     return (EReference)stmtBlockEClass.getEStructuralFeatures().get(0);
   }
@@ -541,6 +541,39 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
   public EClass getIfStmt()
   {
     return ifStmtEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getIfStmt_Condition()
+  {
+    return (EReference)ifStmtEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getIfStmt_Consequence()
+  {
+    return (EReference)ifStmtEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getIfStmt_Alternative()
+  {
+    return (EReference)ifStmtEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -824,28 +857,6 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
    * @generated
    */
   @Override
-  public EReference getExpression_Consequence()
-  {
-    return (EReference)expressionEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getExpression_Alternative()
-  {
-    return (EReference)expressionEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getOperation()
   {
     return operationEClass;
@@ -1021,11 +1032,14 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
     createEReference(attrAssEClass, ATTR_ASS__EXPR);
 
     stmtBlockEClass = createEClass(STMT_BLOCK);
-    createEReference(stmtBlockEClass, STMT_BLOCK__STATMENTS);
+    createEReference(stmtBlockEClass, STMT_BLOCK__STATEMENTS);
 
     stmtEClass = createEClass(STMT);
 
     ifStmtEClass = createEClass(IF_STMT);
+    createEReference(ifStmtEClass, IF_STMT__CONDITION);
+    createEReference(ifStmtEClass, IF_STMT__CONSEQUENCE);
+    createEReference(ifStmtEClass, IF_STMT__ALTERNATIVE);
 
     forStmtEClass = createEClass(FOR_STMT);
     createEReference(forStmtEClass, FOR_STMT__INIT_STMT);
@@ -1060,8 +1074,6 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
     createEAttribute(varPropEClass, VAR_PROP__EXT_ID);
 
     expressionEClass = createEClass(EXPRESSION);
-    createEReference(expressionEClass, EXPRESSION__CONSEQUENCE);
-    createEReference(expressionEClass, EXPRESSION__ALTERNATIVE);
 
     operationEClass = createEClass(OPERATION);
     createEReference(operationEClass, OPERATION__LEFT);
@@ -1116,7 +1128,6 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
     animBlockEClass.getESuperTypes().add(this.getBlock());
     eventBlockEClass.getESuperTypes().add(this.getBlock());
     varEClass.getESuperTypes().add(this.getExpression());
-    expressionEClass.getESuperTypes().add(this.getIfStmt());
     operationEClass.getESuperTypes().add(this.getExpression());
     unaryOperationEClass.getESuperTypes().add(this.getExpression());
     intLiteralEClass.getESuperTypes().add(this.getExpression());
@@ -1152,11 +1163,14 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
     initEReference(getAttrAss_Expr(), this.getExpression(), null, "expr", null, 0, 1, AttrAss.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(stmtBlockEClass, StmtBlock.class, "StmtBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getStmtBlock_Statments(), this.getStmt(), null, "statments", null, 0, -1, StmtBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getStmtBlock_Statements(), this.getStmt(), null, "statements", null, 0, -1, StmtBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(stmtEClass, Stmt.class, "Stmt", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(ifStmtEClass, IfStmt.class, "IfStmt", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getIfStmt_Condition(), this.getExpression(), null, "condition", null, 0, 1, IfStmt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getIfStmt_Consequence(), this.getStmtBlock(), null, "consequence", null, 0, 1, IfStmt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getIfStmt_Alternative(), this.getStmtBlock(), null, "alternative", null, 0, 1, IfStmt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(forStmtEClass, ForStmt.class, "ForStmt", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getForStmt_InitStmt(), this.getAssStmt(), null, "initStmt", null, 0, 1, ForStmt.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1191,8 +1205,6 @@ public class MGPLPackageImpl extends EPackageImpl implements MGPLPackage
     initEAttribute(getVarProp_ExtId(), ecorePackage.getEString(), "extId", null, 0, 1, VarProp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getExpression_Consequence(), this.getStmtBlock(), null, "consequence", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getExpression_Alternative(), this.getStmtBlock(), null, "alternative", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getOperation_Left(), this.getExpression(), null, "left", null, 0, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

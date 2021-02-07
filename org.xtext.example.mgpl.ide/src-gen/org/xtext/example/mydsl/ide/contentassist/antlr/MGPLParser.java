@@ -101,7 +101,8 @@ public class MGPLParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getAttrAssListAccess().getAttrAssAssignment_1_1(), "rule__AttrAssList__AttrAssAssignment_1_1");
 			builder.put(grammarAccess.getAttrAssAccess().getNameAssignment_0(), "rule__AttrAss__NameAssignment_0");
 			builder.put(grammarAccess.getAttrAssAccess().getExprAssignment_2(), "rule__AttrAss__ExprAssignment_2");
-			builder.put(grammarAccess.getStmtBlockAccess().getStatmentsAssignment_1(), "rule__StmtBlock__StatmentsAssignment_1");
+			builder.put(grammarAccess.getStmtBlockAccess().getStatementsAssignment_1(), "rule__StmtBlock__StatementsAssignment_1");
+			builder.put(grammarAccess.getIfStmtAccess().getConditionAssignment_2(), "rule__IfStmt__ConditionAssignment_2");
 			builder.put(grammarAccess.getIfStmtAccess().getConsequenceAssignment_4(), "rule__IfStmt__ConsequenceAssignment_4");
 			builder.put(grammarAccess.getIfStmtAccess().getAlternativeAssignment_5_1(), "rule__IfStmt__AlternativeAssignment_5_1");
 			builder.put(grammarAccess.getForStmtAccess().getInitStmtAssignment_2(), "rule__ForStmt__InitStmtAssignment_2");

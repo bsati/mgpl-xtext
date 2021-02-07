@@ -3,6 +3,14 @@
  */
 package org.xtext.example.mydsl.validation;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtext.validation.Check;
+import org.xtext.example.mydsl.mGPL.AttrAssList;
+import org.xtext.example.mydsl.mGPL.Game;
+import org.xtext.example.mydsl.mGPL.MGPLPackage;
 
 /**
  * This class contains custom validation rules. 
@@ -10,6 +18,10 @@ package org.xtext.example.mydsl.validation;
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 public class MGPLValidator extends AbstractMGPLValidator {
+	public static final String DUPLICATE_ATTRIBUTE = "duplicateAttribute";
+	public static final String MANDATORY_ATTRIBUTE_MISSING = "mandatoryAttributeMissing";
+	public static final String ONLY_CONSTANTS = "onlyConstants";
+	public static final String ILLEGAL_VALUE = "illegalValue";
 	
 //	public static final String INVALID_NAME = "invalidName";
 //
@@ -21,5 +33,4 @@ public class MGPLValidator extends AbstractMGPLValidator {
 //					INVALID_NAME);
 //		}
 //	}
-	
 }

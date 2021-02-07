@@ -29,7 +29,7 @@ import org.xtext.example.mydsl.mGPL.StmtBlock;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.mGPL.impl.StmtBlockImpl#getStatments <em>Statments</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.mGPL.impl.StmtBlockImpl#getStatements <em>Statements</em>}</li>
  * </ul>
  *
  * @generated
@@ -37,14 +37,14 @@ import org.xtext.example.mydsl.mGPL.StmtBlock;
 public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtBlock
 {
   /**
-   * The cached value of the '{@link #getStatments() <em>Statments</em>}' containment reference list.
+   * The cached value of the '{@link #getStatements() <em>Statements</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getStatments()
+   * @see #getStatements()
    * @generated
    * @ordered
    */
-  protected EList<Stmt> statments;
+  protected EList<Stmt> statements;
 
   /**
    * <!-- begin-user-doc -->
@@ -73,13 +73,13 @@ public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtB
    * @generated
    */
   @Override
-  public EList<Stmt> getStatments()
+  public EList<Stmt> getStatements()
   {
-    if (statments == null)
+    if (statements == null)
     {
-      statments = new EObjectContainmentEList<Stmt>(Stmt.class, this, MGPLPackage.STMT_BLOCK__STATMENTS);
+      statements = new EObjectContainmentEList<Stmt>(Stmt.class, this, MGPLPackage.STMT_BLOCK__STATEMENTS);
     }
-    return statments;
+    return statements;
   }
 
   /**
@@ -92,8 +92,8 @@ public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtB
   {
     switch (featureID)
     {
-      case MGPLPackage.STMT_BLOCK__STATMENTS:
-        return ((InternalEList<?>)getStatments()).basicRemove(otherEnd, msgs);
+      case MGPLPackage.STMT_BLOCK__STATEMENTS:
+        return ((InternalEList<?>)getStatements()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -108,8 +108,8 @@ public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtB
   {
     switch (featureID)
     {
-      case MGPLPackage.STMT_BLOCK__STATMENTS:
-        return getStatments();
+      case MGPLPackage.STMT_BLOCK__STATEMENTS:
+        return getStatements();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -125,9 +125,9 @@ public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtB
   {
     switch (featureID)
     {
-      case MGPLPackage.STMT_BLOCK__STATMENTS:
-        getStatments().clear();
-        getStatments().addAll((Collection<? extends Stmt>)newValue);
+      case MGPLPackage.STMT_BLOCK__STATEMENTS:
+        getStatements().clear();
+        getStatements().addAll((Collection<? extends Stmt>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -143,8 +143,8 @@ public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtB
   {
     switch (featureID)
     {
-      case MGPLPackage.STMT_BLOCK__STATMENTS:
-        getStatments().clear();
+      case MGPLPackage.STMT_BLOCK__STATEMENTS:
+        getStatements().clear();
         return;
     }
     super.eUnset(featureID);
@@ -160,8 +160,8 @@ public class StmtBlockImpl extends MinimalEObjectImpl.Container implements StmtB
   {
     switch (featureID)
     {
-      case MGPLPackage.STMT_BLOCK__STATMENTS:
-        return statments != null && !statments.isEmpty();
+      case MGPLPackage.STMT_BLOCK__STATEMENTS:
+        return statements != null && !statements.isEmpty();
     }
     return super.eIsSet(featureID);
   }

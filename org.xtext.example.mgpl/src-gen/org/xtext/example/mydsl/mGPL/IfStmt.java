@@ -9,6 +9,14 @@ package org.xtext.example.mydsl.mGPL;
  * A representation of the model object '<em><b>If Stmt</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.xtext.example.mydsl.mGPL.IfStmt#getCondition <em>Condition</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.mGPL.IfStmt#getConsequence <em>Consequence</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.mGPL.IfStmt#getAlternative <em>Alternative</em>}</li>
+ * </ul>
  *
  * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getIfStmt()
  * @model
@@ -16,4 +24,70 @@ package org.xtext.example.mydsl.mGPL;
  */
 public interface IfStmt extends Stmt
 {
+  /**
+   * Returns the value of the '<em><b>Condition</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Condition</em>' containment reference.
+   * @see #setCondition(Expression)
+   * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getIfStmt_Condition()
+   * @model containment="true"
+   * @generated
+   */
+  Expression getCondition();
+
+  /**
+   * Sets the value of the '{@link org.xtext.example.mydsl.mGPL.IfStmt#getCondition <em>Condition</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Condition</em>' containment reference.
+   * @see #getCondition()
+   * @generated
+   */
+  void setCondition(Expression value);
+
+  /**
+   * Returns the value of the '<em><b>Consequence</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Consequence</em>' containment reference.
+   * @see #setConsequence(StmtBlock)
+   * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getIfStmt_Consequence()
+   * @model containment="true"
+   * @generated
+   */
+  StmtBlock getConsequence();
+
+  /**
+   * Sets the value of the '{@link org.xtext.example.mydsl.mGPL.IfStmt#getConsequence <em>Consequence</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Consequence</em>' containment reference.
+   * @see #getConsequence()
+   * @generated
+   */
+  void setConsequence(StmtBlock value);
+
+  /**
+   * Returns the value of the '<em><b>Alternative</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Alternative</em>' containment reference.
+   * @see #setAlternative(StmtBlock)
+   * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getIfStmt_Alternative()
+   * @model containment="true"
+   * @generated
+   */
+  StmtBlock getAlternative();
+
+  /**
+   * Sets the value of the '{@link org.xtext.example.mydsl.mGPL.IfStmt#getAlternative <em>Alternative</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Alternative</em>' containment reference.
+   * @see #getAlternative()
+   * @generated
+   */
+  void setAlternative(StmtBlock value);
+
 } // IfStmt

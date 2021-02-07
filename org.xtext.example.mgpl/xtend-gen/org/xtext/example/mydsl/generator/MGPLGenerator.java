@@ -3,14 +3,36 @@
  */
 package org.xtext.example.mydsl.generator;
 
+import com.google.common.base.Objects;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
+import org.xtext.example.mydsl.generator.MGPLMapperUtil;
+import org.xtext.example.mydsl.mGPL.AnimBlock;
+import org.xtext.example.mydsl.mGPL.AssStmt;
+import org.xtext.example.mydsl.mGPL.AttrAss;
+import org.xtext.example.mydsl.mGPL.Block;
+import org.xtext.example.mydsl.mGPL.Decl;
+import org.xtext.example.mydsl.mGPL.EventBlock;
+import org.xtext.example.mydsl.mGPL.ForStmt;
 import org.xtext.example.mydsl.mGPL.Game;
+import org.xtext.example.mydsl.mGPL.IfStmt;
+import org.xtext.example.mydsl.mGPL.Init;
+import org.xtext.example.mydsl.mGPL.ObjDecl;
+import org.xtext.example.mydsl.mGPL.Stmt;
+import org.xtext.example.mydsl.mGPL.StmtBlock;
+import org.xtext.example.mydsl.mGPL.Var;
+import org.xtext.example.mydsl.mGPL.VarArray;
+import org.xtext.example.mydsl.mGPL.VarDecl;
+import org.xtext.example.mydsl.mGPL.VarProp;
 
 /**
  * Generates code from your model files on save.
@@ -21,29 +43,650 @@ import org.xtext.example.mydsl.mGPL.Game;
 public class MGPLGenerator extends AbstractGenerator {
   private final String basePackage = "com.games.mpgl";
   
+  private MGPLMapperUtil util = new MGPLMapperUtil();
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _head = IteratorExtensions.<EObject>head(resource.getAllContents());
     final Game game = ((Game) _head);
-    final CharSequence code = this.generateGameCode(game);
-    fsa.generateFile("java/src/game.java", code);
+    this.copyUtilCode(fsa);
+    final CharSequence htmlCode = this.generateIndexHtml(game);
+    fsa.generateFile("index.html", htmlCode);
+    final CharSequence jsCode = this.generateGameJs(game);
+    fsa.generateFile("game.js", jsCode);
   }
   
-  public CharSequence generateGameCode(final Game game) {
+  public CharSequence generateIndexHtml(final Game game) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("package ");
+    _builder.append("<!DOCTYPE html>");
+    _builder.newLine();
+    _builder.append("<html lang=\"en\">");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("<head>");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<meta charset=\"UTF-8\">");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\">");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<link href=\"https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap\" rel=\"stylesheet\">");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<link rel=\"stylesheet\" href=\"style.css\">");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<script type=\"text/javascript\" src=\"util.js\"></script>");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<title>");
     String _name = game.getName();
-    String _plus = ((this.basePackage + ".") + _name);
-    _builder.append(_plus);
-    _builder.append(";");
+    _builder.append(_name, "    ");
+    _builder.append("</title>");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("<script type=\"text/javascript\" src=\"game.js\"></script>");
+    _builder.newLine();
+    _builder.append("</head>");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("<body>");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("<div id=\"container\">");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("<h2>");
+    String _name_1 = game.getName();
+    _builder.append(_name_1, "        ");
+    _builder.append("</h2>");
+    _builder.newLineIfNotEmpty();
+    _builder.append("        ");
+    _builder.append("<canvas id=\"gameCanvas\" width=\"");
+    String _findAttribute = this.findAttribute(game.getAttrAssList().getAttrAss(), "width");
+    _builder.append(_findAttribute, "        ");
+    _builder.append("\" height=\"");
+    String _findAttribute_1 = this.findAttribute(game.getAttrAssList().getAttrAss(), "height");
+    _builder.append(_findAttribute_1, "        ");
+    _builder.append("\"></canvas>");
+    _builder.newLineIfNotEmpty();
+    _builder.append("    ");
+    _builder.append("</div>");
+    _builder.newLine();
+    _builder.append("</body>");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("</html>");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  public CharSequence generateGameJs(final Game game) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Global game-framework vars");
+    _builder.newLine();
+    _builder.append("let canvas;");
+    _builder.newLine();
+    _builder.append("let context;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("let ");
+    String _name = game.getName();
+    _builder.append(_name);
+    _builder.append(" = { ");
+    String _generateAttributeAssignments = this.generateAttributeAssignments(game.getAttrAssList().getAttrAss());
+    _builder.append(_generateAttributeAssignments);
+    _builder.append(" }");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
-    _builder.append("public static void main(String[] args) {");
+    _builder.append("// Global variables");
     _builder.newLine();
-    _builder.append("\t");
+    {
+      final Function1<Decl, Boolean> _function = (Decl it) -> {
+        return Boolean.valueOf((it instanceof VarDecl));
+      };
+      final Function1<Decl, VarDecl> _function_1 = (Decl it) -> {
+        return ((VarDecl) it);
+      };
+      Iterable<VarDecl> _map = IterableExtensions.<Decl, VarDecl>map(IterableExtensions.<Decl>filter(game.getDecl(), _function), _function_1);
+      for(final VarDecl d : _map) {
+        _builder.append("let ");
+        String _name_1 = d.getName();
+        _builder.append(_name_1);
+        {
+          Init _value = d.getValue();
+          boolean _tripleNotEquals = (_value != null);
+          if (_tripleNotEquals) {
+            _builder.append(" = ");
+            String _resolveExpression = this.util.resolveExpression(d.getValue().getExpr());
+            _builder.append(_resolveExpression);
+          }
+        }
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    _builder.append("// Animations");
+    _builder.newLine();
+    {
+      final Function1<Block, Boolean> _function_2 = (Block it) -> {
+        return Boolean.valueOf((it instanceof AnimBlock));
+      };
+      final Function1<Block, AnimBlock> _function_3 = (Block it) -> {
+        return ((AnimBlock) it);
+      };
+      Iterable<AnimBlock> _map_1 = IterableExtensions.<Block, AnimBlock>map(IterableExtensions.<Block>filter(game.getFunctions(), _function_2), _function_3);
+      for(final AnimBlock animation : _map_1) {
+        _builder.append("function ");
+        String _name_2 = animation.getName();
+        _builder.append(_name_2);
+        _builder.append("(");
+        String _objName = animation.getObjName();
+        _builder.append(_objName);
+        _builder.append(") {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        String _generateStatements = this.generateStatements(animation.getStmtBlock());
+        _builder.append(_generateStatements, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.newLine();
+      }
+    }
+    {
+      final Function1<Decl, Boolean> _function_4 = (Decl it) -> {
+        return Boolean.valueOf((it instanceof ObjDecl));
+      };
+      final Function1<Decl, ObjDecl> _function_5 = (Decl it) -> {
+        return ((ObjDecl) it);
+      };
+      Iterable<ObjDecl> _map_2 = IterableExtensions.<Decl, ObjDecl>map(IterableExtensions.<Decl>filter(game.getDecl(), _function_4), _function_5);
+      for(final ObjDecl d_1 : _map_2) {
+        {
+          int _arrSize = d_1.getArrSize();
+          boolean _tripleEquals = (_arrSize == 0);
+          if (_tripleEquals) {
+            _builder.append("let ");
+            String _name_3 = d_1.getName();
+            _builder.append(_name_3);
+            _builder.append(" = {");
+            String _generateAttributeAssignments_1 = this.generateAttributeAssignments(d_1.getAttrAssList().getAttrAss());
+            _builder.append(_generateAttributeAssignments_1);
+            _builder.append(", type: ");
+            String _mapObjType = this.util.mapObjType(d_1.getType());
+            _builder.append(_mapObjType);
+            {
+              String _findAttribute = this.findAttribute(d_1.getAttrAssList().getAttrAss(), "visible");
+              boolean _equals = Objects.equal(_findAttribute, "undefined");
+              if (_equals) {
+                _builder.append(", visible: 1");
+              }
+            }
+            _builder.append("};");
+            _builder.newLineIfNotEmpty();
+          } else {
+            _builder.append("let ");
+            String _name_4 = d_1.getName();
+            _builder.append(_name_4);
+            _builder.append(" = [");
+            String _generateDefaultArrayDecl = this.generateDefaultArrayDecl(d_1);
+            _builder.append(_generateDefaultArrayDecl);
+            _builder.append("];");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      }
+    }
+    _builder.newLine();
+    _builder.append("let gameObjs = [");
+    final Function1<Decl, Boolean> _function_6 = (Decl it) -> {
+      return Boolean.valueOf((it instanceof ObjDecl));
+    };
+    final Function1<Decl, ObjDecl> _function_7 = (Decl it) -> {
+      return ((ObjDecl) it);
+    };
+    String _generateObjectList = this.generateObjectList(IterableExtensions.<Decl, ObjDecl>map(IterableExtensions.<Decl>filter(game.getDecl(), _function_6), _function_7));
+    _builder.append(_generateObjectList);
+    _builder.append("]");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("// KeyEvents");
+    _builder.newLine();
+    {
+      final Function1<Block, Boolean> _function_8 = (Block it) -> {
+        return Boolean.valueOf((it instanceof EventBlock));
+      };
+      final Function1<Block, EventBlock> _function_9 = (Block it) -> {
+        return ((EventBlock) it);
+      };
+      Iterable<EventBlock> _map_3 = IterableExtensions.<Block, EventBlock>map(IterableExtensions.<Block>filter(game.getFunctions(), _function_8), _function_9);
+      for(final EventBlock event : _map_3) {
+        _builder.append("function ");
+        String _key = event.getKey();
+        _builder.append(_key);
+        _builder.append("() {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        String _generateStatements_1 = this.generateStatements(event.getStmtBlock());
+        _builder.append(_generateStatements_1, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("}");
+        _builder.newLine();
+        _builder.newLine();
+      }
+    }
+    _builder.append("// KeyMap to work with in the input loop");
+    _builder.newLine();
+    _builder.append("let keyMap = new Map();");
+    _builder.newLine();
+    {
+      final Function1<Block, Boolean> _function_10 = (Block it) -> {
+        return Boolean.valueOf((it instanceof EventBlock));
+      };
+      final Function1<Block, EventBlock> _function_11 = (Block it) -> {
+        return ((EventBlock) it);
+      };
+      Iterable<EventBlock> _map_4 = IterableExtensions.<Block, EventBlock>map(IterableExtensions.<Block>filter(game.getFunctions(), _function_10), _function_11);
+      for(final EventBlock event_1 : _map_4) {
+        _builder.append("keyMap.set(\'");
+        String _mapKey = this.util.mapKey(event_1.getKey());
+        _builder.append(_mapKey);
+        _builder.append("\', { keydown: false, onDown: ");
+        String _key_1 = event_1.getKey();
+        _builder.append(_key_1);
+        _builder.append(" });");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.newLine();
+    String _generateStatements_2 = this.generateStatements(game.getInitBlock());
+    _builder.append(_generateStatements_2);
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("window.onload = init;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("function init() {");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("canvas = document.getElementById(\'gameCanvas\');");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("context = canvas.getContext(\'2d\');");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("window.addEventListener(\'keydown\', (e) => {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("if (keyMap.has(e.key)) {");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("keyMap.get(e.key).keydown = true;");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}, true);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("window.addEventListener(\'keyup\', (e) => {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("if (keyMap.has(e.key)) {");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("keyMap.get(e.key).keydown = false;");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("}, true);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("window.requestAnimationFrame(gameLoop);");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("window.requestAnimationFrame(inputLoop);");
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();
+    _builder.newLine();
+    _builder.append("function gameLoop() {");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("// blank fill background");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("context.fillStyle = \'white\';");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("context.fillRect(0, 0, canvas.width, canvas.height);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("// Animate and draw objects");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("gameObjs.forEach(obj => {");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("if (Array.isArray(obj)) {");
+    _builder.newLine();
+    _builder.append("    \t\t");
+    _builder.append("obj.forEach(x => {");
+    _builder.newLine();
+    _builder.append("    \t\t\t");
+    _builder.append("if (x.anim) {");
+    _builder.newLine();
+    _builder.append("    \t\t\t\t");
+    _builder.append("x.anim(x)");
+    _builder.newLine();
+    _builder.append("    \t\t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    \t\t");
+    _builder.append("})");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("} else {");
+    _builder.newLine();
+    _builder.append("    \t\t");
+    _builder.append("if (obj.anim) {");
+    _builder.newLine();
+    _builder.append("    \t\t\t");
+    _builder.append("obj.anim(obj);");
+    _builder.newLine();
+    _builder.append("    \t\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    \t");
+    _builder.append("draw(obj);");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("});");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("// request next animation frame");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("window.setTimeout(() => window.requestAnimationFrame(gameLoop), 1000 / ");
+    String _findAttribute_1 = this.findAttribute(game.getAttrAssList().getAttrAss(), "speed");
+    _builder.append(_findAttribute_1, "    ");
+    _builder.append(");");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("function inputLoop() {");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("// Execute input updates");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("keyMap.forEach((value, key) => {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("if (value.keydown) {");
+    _builder.newLine();
+    _builder.append("            ");
+    _builder.append("value.onDown();");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("});");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("// blank fill background");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("context.fillStyle = \'white\';");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("context.fillRect(0, 0, canvas.width, canvas.height);");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("// Animate and draw objects");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("gameObjs.forEach(obj => {");
+    _builder.newLine();
+    _builder.append("        ");
+    _builder.append("draw(obj);");
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("});");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("    ");
+    _builder.append("window.setTimeout(() => window.requestAnimationFrame(inputLoop), 1000 / ");
+    String _findAttribute_2 = this.findAttribute(game.getAttrAssList().getAttrAss(), "speed");
+    _builder.append(_findAttribute_2, "    ");
+    _builder.append(");");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
     return _builder;
+  }
+  
+  public String generateDefaultArrayDecl(final ObjDecl decl) {
+    String result = "";
+    for (int i = 0; (i < decl.getArrSize()); i++) {
+      {
+        String _result = result;
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("createDefaultGameObj(");
+        String _mapObjType = this.util.mapObjType(decl.getType());
+        _builder.append(_mapObjType);
+        _builder.append(")");
+        result = (_result + _builder);
+        int _arrSize = decl.getArrSize();
+        int _minus = (_arrSize - 1);
+        boolean _notEquals = (i != _minus);
+        if (_notEquals) {
+          String _result_1 = result;
+          result = (_result_1 + ", ");
+        }
+      }
+    }
+    return result;
+  }
+  
+  public String generateStatements(final StmtBlock block) {
+    if ((block == null)) {
+      return "";
+    }
+    String result = "";
+    EList<Stmt> _statements = block.getStatements();
+    for (final Stmt stmt : _statements) {
+      if ((stmt instanceof IfStmt)) {
+        IfStmt ifStmt = ((IfStmt) stmt);
+        String _result = result;
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("if(");
+        String _resolveExpression = this.util.resolveExpression(ifStmt.getCondition());
+        _builder.append(_resolveExpression);
+        _builder.append(") {");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        Object _generateStatements = this.generateStatements(ifStmt.getConsequence());
+        _builder.append(_generateStatements, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("} ");
+        {
+          StmtBlock _alternative = ifStmt.getAlternative();
+          boolean _tripleNotEquals = (_alternative != null);
+          if (_tripleNotEquals) {
+            _builder.append(" else {");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            Object _generateStatements_1 = this.generateStatements(ifStmt.getAlternative());
+            _builder.append(_generateStatements_1, "\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("} ");
+          }
+        }
+        _builder.newLineIfNotEmpty();
+        result = (_result + _builder);
+      } else {
+        if ((stmt instanceof ForStmt)) {
+          ForStmt forStmt = ((ForStmt) stmt);
+          String _result_1 = result;
+          StringConcatenation _builder_1 = new StringConcatenation();
+          _builder_1.append("for(");
+          CharSequence _generateAssignmentStatement = this.generateAssignmentStatement(forStmt.getInitStmt());
+          _builder_1.append(_generateAssignmentStatement);
+          _builder_1.append("; ");
+          String _resolveExpression_1 = this.util.resolveExpression(forStmt.getEndCondition());
+          _builder_1.append(_resolveExpression_1);
+          _builder_1.append("; ");
+          CharSequence _generateAssignmentStatement_1 = this.generateAssignmentStatement(forStmt.getLoopStmt());
+          _builder_1.append(_generateAssignmentStatement_1);
+          _builder_1.append(") {");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("\t");
+          Object _generateStatements_2 = this.generateStatements(forStmt.getStmtBlock());
+          _builder_1.append(_generateStatements_2, "\t");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("}");
+          _builder_1.newLine();
+          result = (_result_1 + _builder_1);
+        } else {
+          if ((stmt instanceof AssStmt)) {
+            String _result_2 = result;
+            CharSequence _generateAssignmentStatement_2 = this.generateAssignmentStatement(((AssStmt) stmt));
+            String _plus = (_generateAssignmentStatement_2 + ";\n");
+            result = (_result_2 + _plus);
+          }
+        }
+      }
+    }
+    return result;
+  }
+  
+  public CharSequence generateAssignmentStatement(final AssStmt assignment) {
+    StringConcatenation _builder = new StringConcatenation();
+    CharSequence _generateVarName = this.generateVarName(assignment.getVar());
+    _builder.append(_generateVarName);
+    _builder.append(" = ");
+    String _resolveExpression = this.util.resolveExpression(assignment.getAssignment());
+    _builder.append(_resolveExpression);
+    return _builder;
+  }
+  
+  public String generateObjectList(final Iterable<ObjDecl> itr) {
+    String result = "";
+    for (int i = 0; (i < IterableExtensions.size(itr)); i++) {
+      {
+        String _result = result;
+        String _name = (((ObjDecl[])Conversions.unwrapArray(itr, ObjDecl.class))[i]).getName();
+        result = (_result + _name);
+        int _size = IterableExtensions.size(itr);
+        int _minus = (_size - 1);
+        boolean _notEquals = (i != _minus);
+        if (_notEquals) {
+          String _result_1 = result;
+          result = (_result_1 + ", ");
+        }
+      }
+    }
+    return result;
+  }
+  
+  public CharSequence generateVarName(final Var v) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _name = v.getName();
+    _builder.append(_name);
+    {
+      VarArray _varArray = v.getVarArray();
+      boolean _tripleNotEquals = (_varArray != null);
+      if (_tripleNotEquals) {
+        _builder.append("[");
+        String _resolveExpression = this.util.resolveExpression(v.getVarArray().getIndexExpr());
+        _builder.append(_resolveExpression);
+        _builder.append("]");
+      }
+    }
+    {
+      VarProp _varProp = v.getVarProp();
+      boolean _tripleNotEquals_1 = (_varProp != null);
+      if (_tripleNotEquals_1) {
+        _builder.append(".");
+        String _mapPropertyName = this.util.mapPropertyName(v.getVarProp().getExtId());
+        _builder.append(_mapPropertyName);
+      }
+    }
+    return _builder;
+  }
+  
+  public String generateAttributeAssignments(final EList<AttrAss> assignments) {
+    String result = "";
+    for (int i = 0; (i < assignments.size()); i++) {
+      {
+        String _result = result;
+        CharSequence _generateAttributeAssignment = this.generateAttributeAssignment(assignments.get(i));
+        result = (_result + _generateAttributeAssignment);
+        int _size = assignments.size();
+        int _minus = (_size - 1);
+        boolean _notEquals = (i != _minus);
+        if (_notEquals) {
+          String _result_1 = result;
+          result = (_result_1 + ", ");
+        }
+      }
+    }
+    return result;
+  }
+  
+  public CharSequence generateAttributeAssignment(final AttrAss assignment) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _mapPropertyName = this.util.mapPropertyName(assignment.getName());
+    _builder.append(_mapPropertyName);
+    _builder.append(": ");
+    String _resolveExpression = this.util.resolveExpression(assignment.getExpr());
+    _builder.append(_resolveExpression);
+    return _builder;
+  }
+  
+  public String findAttribute(final EList<AttrAss> assignments, final String... fields) {
+    AttrAss result = null;
+    for (final String f : fields) {
+      {
+        final Function1<AttrAss, Boolean> _function = (AttrAss it) -> {
+          String _name = it.getName();
+          return Boolean.valueOf(Objects.equal(_name, f));
+        };
+        result = IterableExtensions.<AttrAss>findFirst(assignments, _function);
+        if ((result != null)) {
+          return this.util.resolveExpression(result.getExpr());
+        }
+      }
+    }
+    return "undefined";
+  }
+  
+  public void copyUtilCode(final IFileSystemAccess2 fsa) {
+    fsa.generateFile("style.css", "body {\r\n\t\t    margin: 0;\r\n\t\t    background-color: #2c4270;\r\n\t\t    color: #fefefe;\r\n\t\t    font-family: \'Roboto\', sans-serif;\r\n\t\t}\r\n\t\t\r\n\t\t#container {\r\n\t\t    text-align: center;\r\n\t\t}\r\n\t\t\r\n\t\t#container > h2 {\r\n\t\t    text-transform: uppercase;\r\n\t\t}");
+    fsa.generateFile("util.js", "// Simple boundary check that uses axis aligned bounding boxes for overlap detection\r\n\t\tconst touches = (obj1, obj2) => {\r\n\t\t    return !(obj1.x > (obj2.x + (obj2.w ?? obj2.r)) ||\r\n\t\t        (obj1.x + (obj1.w ?? obj1.r)) < obj2.x ||\r\n\t\t        obj1.y > (obj2.y + (obj2.h ?? obj2.r)) ||\r\n\t\t        (obj1.y + (obj1.h ?? obj1.r)) < obj2.y);\r\n\t\t}\r\n\t\t\r\n\t\t// ObjType enum\r\n\t\tconst objTypes = {\r\n\t\t    Circle: \'Circle\',\r\n\t\t    Rectangle: \'Rectangle\',\r\n\t\t    Triangle: \'Triangle\'\r\n\t\t}\r\n\t\t\r\n\t\t// Draw functions\r\n\t\tfunction draw(gameObj) {\r\n\t\t    if (Array.isArray(gameObj)) {\r\n\t\t        gameObj.forEach(obj => drawObj(obj));\r\n\t\t    } else {\r\n\t\t        drawObj(gameObj);\r\n\t\t    }\r\n\t\t}\r\n\t\t\r\n\t\tfunction drawObj(gameObj) {\r\n\t\t    if (gameObj.visible && gameObj.visible === 1) {\r\n\t\t        if (gameObj.type === objTypes.Rectangle) {\r\n\t\t            drawRectangle(gameObj);\r\n\t\t        } else if (gameObj.type === objTypes.Circle) {\r\n\t\t            drawCircle(gameObj);\r\n\t\t        } else if (gameObj.type === objTypes.Triangle) {\r\n\t\t            drawTriangle(gameObj);\r\n\t\t        }\r\n\t\t    }\r\n\t\t}\r\n\t\t\r\n\t\tfunction drawCircle(circle) {\r\n\t\t    context.moveTo(circle.x, circle.y);\r\n\t\t    context.beginPath();\r\n\t\t    context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI);\r\n\t\t    context.fillStyle = \'black\';\r\n\t\t    context.fill();\r\n\t\t    context.lineWidth = 1;\r\n\t\t    context.strokeStyle = \'black\';\r\n\t\t    context.stroke();\r\n\t\t}\r\n\t\t\r\n\t\tfunction drawRectangle(rectangle) {\r\n\t\t    context.fillStyle = \'black\';\r\n\t\t    context.fillRect(rectangle.x, rectangle.y, rectangle.w, rectangle.h);\r\n\t\t}\r\n\t\t\r\n\t\tfunction drawTriangle(triangle) {\r\n\t\t    context.moveTo(triangle.x, triangle.y)\r\n\t\t    context.beginPath();\r\n\t\t    context.lineTo(triangle.x - triangle.w / 2, triangle.y + triangle.h);\r\n\t\t    context.lineTo(triangle.x + triangle.w / 2, triangle.y + triangle.h);\r\n\t\t    context.lineTo(triangle.x, triangle.y);\r\n\t\t\r\n\t\t    context.fillStyle = \'black\';\r\n\t\t    context.fill();\r\n\t\t    context.lineWidth = 1;\r\n\t\t    context.strokeStyle = \'black\';\r\n\t\t    context.stroke();\r\n\t\t}\r\n\t\t\r\n\t\tfunction createDefaultGameObj(t) {\r\n\t\t    if (t === objTypes.Rectangle || t === objTypes.Triangle) {\r\n\t\t        return { x: 0, y: 0, w: 0, h: 0, visible: 1, type: t }\r\n\t\t    } else {\r\n\t\t        return { x: 0, y: 0, r: 0, visible: 1, type: t }\r\n\t\t    }\r\n\t\t}");
   }
 }

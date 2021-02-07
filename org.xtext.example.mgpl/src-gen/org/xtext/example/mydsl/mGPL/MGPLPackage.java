@@ -381,13 +381,13 @@ public interface MGPLPackage extends EPackage
   int STMT_BLOCK = 7;
 
   /**
-   * The feature id for the '<em><b>Statments</b></em>' containment reference list.
+   * The feature id for the '<em><b>Statements</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int STMT_BLOCK__STATMENTS = 0;
+  int STMT_BLOCK__STATEMENTS = 0;
 
   /**
    * The number of structural features of the '<em>Stmt Block</em>' class.
@@ -428,13 +428,40 @@ public interface MGPLPackage extends EPackage
   int IF_STMT = 9;
 
   /**
+   * The feature id for the '<em><b>Condition</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF_STMT__CONDITION = STMT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF_STMT__CONSEQUENCE = STMT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IF_STMT__ALTERNATIVE = STMT_FEATURE_COUNT + 2;
+
+  /**
    * The number of structural features of the '<em>If Stmt</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IF_STMT_FEATURE_COUNT = STMT_FEATURE_COUNT + 0;
+  int IF_STMT_FEATURE_COUNT = STMT_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.mGPL.impl.ForStmtImpl <em>For Stmt</em>}' class.
@@ -659,31 +686,13 @@ public interface MGPLPackage extends EPackage
   int EXPRESSION = 18;
 
   /**
-   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EXPRESSION__CONSEQUENCE = IF_STMT_FEATURE_COUNT + 0;
-
-  /**
-   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EXPRESSION__ALTERNATIVE = IF_STMT_FEATURE_COUNT + 1;
-
-  /**
    * The number of structural features of the '<em>Expression</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXPRESSION_FEATURE_COUNT = IF_STMT_FEATURE_COUNT + 2;
+  int EXPRESSION_FEATURE_COUNT = 0;
 
   /**
    * The meta object id for the '{@link org.xtext.example.mydsl.mGPL.impl.VarImpl <em>Var</em>}' class.
@@ -694,24 +703,6 @@ public interface MGPLPackage extends EPackage
    * @generated
    */
   int VAR = 15;
-
-  /**
-   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VAR__CONSEQUENCE = EXPRESSION__CONSEQUENCE;
-
-  /**
-   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int VAR__ALTERNATIVE = EXPRESSION__ALTERNATIVE;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -816,24 +807,6 @@ public interface MGPLPackage extends EPackage
   int OPERATION = 19;
 
   /**
-   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OPERATION__CONSEQUENCE = EXPRESSION__CONSEQUENCE;
-
-  /**
-   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int OPERATION__ALTERNATIVE = EXPRESSION__ALTERNATIVE;
-
-  /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -880,24 +853,6 @@ public interface MGPLPackage extends EPackage
   int UNARY_OPERATION = 20;
 
   /**
-   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int UNARY_OPERATION__CONSEQUENCE = EXPRESSION__CONSEQUENCE;
-
-  /**
-   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int UNARY_OPERATION__ALTERNATIVE = EXPRESSION__ALTERNATIVE;
-
-  /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -935,24 +890,6 @@ public interface MGPLPackage extends EPackage
   int INT_LITERAL = 21;
 
   /**
-   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INT_LITERAL__CONSEQUENCE = EXPRESSION__CONSEQUENCE;
-
-  /**
-   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INT_LITERAL__ALTERNATIVE = EXPRESSION__ALTERNATIVE;
-
-  /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -979,24 +916,6 @@ public interface MGPLPackage extends EPackage
    * @generated
    */
   int EXPR_VAR = 22;
-
-  /**
-   * The feature id for the '<em><b>Consequence</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EXPR_VAR__CONSEQUENCE = EXPRESSION__CONSEQUENCE;
-
-  /**
-   * The feature id for the '<em><b>Alternative</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EXPR_VAR__ALTERNATIVE = EXPRESSION__ALTERNATIVE;
 
   /**
    * The feature id for the '<em><b>Expr</b></em>' containment reference.
@@ -1252,15 +1171,15 @@ public interface MGPLPackage extends EPackage
   EClass getStmtBlock();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.mGPL.StmtBlock#getStatments <em>Statments</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.mGPL.StmtBlock#getStatements <em>Statements</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Statments</em>'.
-   * @see org.xtext.example.mydsl.mGPL.StmtBlock#getStatments()
+   * @return the meta object for the containment reference list '<em>Statements</em>'.
+   * @see org.xtext.example.mydsl.mGPL.StmtBlock#getStatements()
    * @see #getStmtBlock()
    * @generated
    */
-  EReference getStmtBlock_Statments();
+  EReference getStmtBlock_Statements();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.mGPL.Stmt <em>Stmt</em>}'.
@@ -1281,6 +1200,39 @@ public interface MGPLPackage extends EPackage
    * @generated
    */
   EClass getIfStmt();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.mGPL.IfStmt#getCondition <em>Condition</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Condition</em>'.
+   * @see org.xtext.example.mydsl.mGPL.IfStmt#getCondition()
+   * @see #getIfStmt()
+   * @generated
+   */
+  EReference getIfStmt_Condition();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.mGPL.IfStmt#getConsequence <em>Consequence</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Consequence</em>'.
+   * @see org.xtext.example.mydsl.mGPL.IfStmt#getConsequence()
+   * @see #getIfStmt()
+   * @generated
+   */
+  EReference getIfStmt_Consequence();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.mGPL.IfStmt#getAlternative <em>Alternative</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Alternative</em>'.
+   * @see org.xtext.example.mydsl.mGPL.IfStmt#getAlternative()
+   * @see #getIfStmt()
+   * @generated
+   */
+  EReference getIfStmt_Alternative();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.mGPL.ForStmt <em>For Stmt</em>}'.
@@ -1547,28 +1499,6 @@ public interface MGPLPackage extends EPackage
    * @generated
    */
   EClass getExpression();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.mGPL.Expression#getConsequence <em>Consequence</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Consequence</em>'.
-   * @see org.xtext.example.mydsl.mGPL.Expression#getConsequence()
-   * @see #getExpression()
-   * @generated
-   */
-  EReference getExpression_Consequence();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.xtext.example.mydsl.mGPL.Expression#getAlternative <em>Alternative</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Alternative</em>'.
-   * @see org.xtext.example.mydsl.mGPL.Expression#getAlternative()
-   * @see #getExpression()
-   * @generated
-   */
-  EReference getExpression_Alternative();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.mGPL.Operation <em>Operation</em>}'.
@@ -1903,12 +1833,12 @@ public interface MGPLPackage extends EPackage
     EClass STMT_BLOCK = eINSTANCE.getStmtBlock();
 
     /**
-     * The meta object literal for the '<em><b>Statments</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Statements</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference STMT_BLOCK__STATMENTS = eINSTANCE.getStmtBlock_Statments();
+    EReference STMT_BLOCK__STATEMENTS = eINSTANCE.getStmtBlock_Statements();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.mGPL.impl.StmtImpl <em>Stmt</em>}' class.
@@ -1929,6 +1859,30 @@ public interface MGPLPackage extends EPackage
      * @generated
      */
     EClass IF_STMT = eINSTANCE.getIfStmt();
+
+    /**
+     * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IF_STMT__CONDITION = eINSTANCE.getIfStmt_Condition();
+
+    /**
+     * The meta object literal for the '<em><b>Consequence</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IF_STMT__CONSEQUENCE = eINSTANCE.getIfStmt_Consequence();
+
+    /**
+     * The meta object literal for the '<em><b>Alternative</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IF_STMT__ALTERNATIVE = eINSTANCE.getIfStmt_Alternative();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.mGPL.impl.ForStmtImpl <em>For Stmt</em>}' class.
@@ -2147,22 +2101,6 @@ public interface MGPLPackage extends EPackage
      * @generated
      */
     EClass EXPRESSION = eINSTANCE.getExpression();
-
-    /**
-     * The meta object literal for the '<em><b>Consequence</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference EXPRESSION__CONSEQUENCE = eINSTANCE.getExpression_Consequence();
-
-    /**
-     * The meta object literal for the '<em><b>Alternative</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference EXPRESSION__ALTERNATIVE = eINSTANCE.getExpression_Alternative();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.mGPL.impl.OperationImpl <em>Operation</em>}' class.

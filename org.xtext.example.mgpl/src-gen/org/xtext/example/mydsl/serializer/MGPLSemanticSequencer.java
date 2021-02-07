@@ -22,6 +22,7 @@ import org.xtext.example.mydsl.mGPL.EventBlock;
 import org.xtext.example.mydsl.mGPL.ExprVar;
 import org.xtext.example.mydsl.mGPL.ForStmt;
 import org.xtext.example.mydsl.mGPL.Game;
+import org.xtext.example.mydsl.mGPL.IfStmt;
 import org.xtext.example.mydsl.mGPL.Init;
 import org.xtext.example.mydsl.mGPL.IntLiteral;
 import org.xtext.example.mydsl.mGPL.MGPLPackage;
@@ -65,68 +66,28 @@ public class MGPLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				sequence_EventBlock(context, (EventBlock) semanticObject); 
 				return; 
 			case MGPLPackage.EXPR_VAR:
-				if (rule == grammarAccess.getExprRule()
-						|| rule == grammarAccess.getOrExprRule()
-						|| action == grammarAccess.getOrExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAndExprRule()
-						|| action == grammarAccess.getAndExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getRelExprRule()
-						|| action == grammarAccess.getRelExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAddExprRule()
-						|| action == grammarAccess.getAddExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getMultExprRule()
-						|| action == grammarAccess.getMultExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAtomRule()) {
-					sequence_Atom(context, (ExprVar) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getStmtRule()
-						|| rule == grammarAccess.getIfStmtRule()) {
-					sequence_Atom_IfStmt(context, (ExprVar) semanticObject); 
-					return; 
-				}
-				else break;
+				sequence_Atom(context, (ExprVar) semanticObject); 
+				return; 
 			case MGPLPackage.FOR_STMT:
 				sequence_ForStmt(context, (ForStmt) semanticObject); 
 				return; 
 			case MGPLPackage.GAME:
 				sequence_Game(context, (Game) semanticObject); 
 				return; 
+			case MGPLPackage.IF_STMT:
+				sequence_IfStmt(context, (IfStmt) semanticObject); 
+				return; 
 			case MGPLPackage.INIT:
 				sequence_Init(context, (Init) semanticObject); 
 				return; 
 			case MGPLPackage.INT_LITERAL:
-				if (rule == grammarAccess.getStmtRule()
-						|| rule == grammarAccess.getIfStmtRule()) {
-					sequence_Atom_IfStmt(context, (IntLiteral) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getExprRule()
-						|| rule == grammarAccess.getOrExprRule()
-						|| action == grammarAccess.getOrExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAndExprRule()
-						|| action == grammarAccess.getAndExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getRelExprRule()
-						|| action == grammarAccess.getRelExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAddExprRule()
-						|| action == grammarAccess.getAddExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getMultExprRule()
-						|| action == grammarAccess.getMultExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAtomRule()) {
-					sequence_Atom(context, (IntLiteral) semanticObject); 
-					return; 
-				}
-				else break;
+				sequence_Atom(context, (IntLiteral) semanticObject); 
+				return; 
 			case MGPLPackage.OBJ_DECL:
 				sequence_ObjDecl(context, (ObjDecl) semanticObject); 
 				return; 
 			case MGPLPackage.OPERATION:
-				if (rule == grammarAccess.getStmtRule()
-						|| rule == grammarAccess.getIfStmtRule()) {
-					sequence_AddExpr_AndExpr_Atom_IfStmt_MultExpr_OrExpr_RelExpr(context, (Operation) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getExprRule()
+				if (rule == grammarAccess.getExprRule()
 						|| rule == grammarAccess.getOrExprRule()
 						|| action == grammarAccess.getOrExprAccess().getOperationLeftAction_1_0()) {
 					sequence_AddExpr_AndExpr_Atom_MultExpr_OrExpr_RelExpr(context, (Operation) semanticObject); 
@@ -161,51 +122,11 @@ public class MGPLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				sequence_StmtBlock(context, (StmtBlock) semanticObject); 
 				return; 
 			case MGPLPackage.UNARY_OPERATION:
-				if (rule == grammarAccess.getStmtRule()
-						|| rule == grammarAccess.getIfStmtRule()) {
-					sequence_IfStmt_UnaryExpr(context, (UnaryOperation) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getExprRule()
-						|| rule == grammarAccess.getOrExprRule()
-						|| action == grammarAccess.getOrExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAndExprRule()
-						|| action == grammarAccess.getAndExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getRelExprRule()
-						|| action == grammarAccess.getRelExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAddExprRule()
-						|| action == grammarAccess.getAddExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getMultExprRule()
-						|| action == grammarAccess.getMultExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getUnaryExprRule()) {
-					sequence_UnaryExpr(context, (UnaryOperation) semanticObject); 
-					return; 
-				}
-				else break;
+				sequence_UnaryExpr(context, (UnaryOperation) semanticObject); 
+				return; 
 			case MGPLPackage.VAR:
-				if (rule == grammarAccess.getStmtRule()
-						|| rule == grammarAccess.getIfStmtRule()) {
-					sequence_IfStmt_Var(context, (Var) semanticObject); 
-					return; 
-				}
-				else if (rule == grammarAccess.getVarRule()
-						|| rule == grammarAccess.getExprRule()
-						|| rule == grammarAccess.getOrExprRule()
-						|| action == grammarAccess.getOrExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAndExprRule()
-						|| action == grammarAccess.getAndExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getRelExprRule()
-						|| action == grammarAccess.getRelExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAddExprRule()
-						|| action == grammarAccess.getAddExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getMultExprRule()
-						|| action == grammarAccess.getMultExprAccess().getOperationLeftAction_1_0()
-						|| rule == grammarAccess.getAtomRule()
-						|| action == grammarAccess.getAtomAccess().getOperationLeftAction_1_1_0()) {
-					sequence_Var(context, (Var) semanticObject); 
-					return; 
-				}
-				else break;
+				sequence_Var(context, (Var) semanticObject); 
+				return; 
 			case MGPLPackage.VAR_ARRAY:
 				sequence_VarArray(context, (VarArray) semanticObject); 
 				return; 
@@ -219,30 +140,6 @@ public class MGPLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		if (errorAcceptor != null)
 			errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
-	
-	/**
-	 * Contexts:
-	 *     Stmt returns Operation
-	 *     IfStmt returns Operation
-	 *
-	 * Constraint:
-	 *     (
-	 *         (
-	 *             (left=OrExpr_Operation_1_0 op=OR right=AndExpr) | 
-	 *             (left=AndExpr_Operation_1_0 op=AND right=RelExpr) | 
-	 *             (left=RelExpr_Operation_1_0 op=REL_OP right=AddExpr) | 
-	 *             (left=AddExpr_Operation_1_0 (op=PLUS | op=MINUS) right=MultExpr) | 
-	 *             (left=MultExpr_Operation_1_0 (op=MULT | op=DIV) (right=UnaryExpr | right=Atom)) | 
-	 *             (left=Atom_Operation_1_1_0 op='touches' right=Var)
-	 *         ) 
-	 *         consequence=StmtBlock 
-	 *         alternative=StmtBlock?
-	 *     )
-	 */
-	protected void sequence_AddExpr_AndExpr_Atom_IfStmt_MultExpr_OrExpr_RelExpr(ISerializationContext context, Operation semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
 	
 	/**
 	 * Contexts:
@@ -395,32 +292,6 @@ public class MGPLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getAtomAccess().getExprExprParserRuleCall_2_2_0(), semanticObject.getExpr());
 		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Stmt returns ExprVar
-	 *     IfStmt returns ExprVar
-	 *
-	 * Constraint:
-	 *     (expr=Expr consequence=StmtBlock alternative=StmtBlock?)
-	 */
-	protected void sequence_Atom_IfStmt(ISerializationContext context, ExprVar semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Stmt returns IntLiteral
-	 *     IfStmt returns IntLiteral
-	 *
-	 * Constraint:
-	 *     (value=INT consequence=StmtBlock alternative=StmtBlock?)
-	 */
-	protected void sequence_Atom_IfStmt(ISerializationContext context, IntLiteral semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -587,26 +458,13 @@ public class MGPLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     Stmt returns UnaryOperation
-	 *     IfStmt returns UnaryOperation
+	 *     Stmt returns IfStmt
+	 *     IfStmt returns IfStmt
 	 *
 	 * Constraint:
-	 *     ((op=NOT | op=MINUS) right=Atom consequence=StmtBlock alternative=StmtBlock?)
+	 *     (condition=Expr consequence=StmtBlock alternative=StmtBlock?)
 	 */
-	protected void sequence_IfStmt_UnaryExpr(ISerializationContext context, UnaryOperation semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Contexts:
-	 *     Stmt returns Var
-	 *     IfStmt returns Var
-	 *
-	 * Constraint:
-	 *     (name=ID varArray=VarArray? varProp=VarProp? consequence=StmtBlock alternative=StmtBlock?)
-	 */
-	protected void sequence_IfStmt_Var(ISerializationContext context, Var semanticObject) {
+	protected void sequence_IfStmt(ISerializationContext context, IfStmt semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -647,7 +505,7 @@ public class MGPLSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     StmtBlock returns StmtBlock
 	 *
 	 * Constraint:
-	 *     statments+=Stmt+
+	 *     statements+=Stmt+
 	 */
 	protected void sequence_StmtBlock(ISerializationContext context, StmtBlock semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

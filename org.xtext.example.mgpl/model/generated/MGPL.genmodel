@@ -35,10 +35,14 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//AttrAss/expr"/>
     </genClasses>
     <genClasses ecoreClass="MGPL.ecore#//StmtBlock">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//StmtBlock/statments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//StmtBlock/statements"/>
     </genClasses>
     <genClasses ecoreClass="MGPL.ecore#//Stmt"/>
-    <genClasses ecoreClass="MGPL.ecore#//IfStmt"/>
+    <genClasses ecoreClass="MGPL.ecore#//IfStmt">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//IfStmt/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//IfStmt/consequence"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//IfStmt/alternative"/>
+    </genClasses>
     <genClasses ecoreClass="MGPL.ecore#//ForStmt">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//ForStmt/initStmt"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//ForStmt/endCondition"/>
@@ -71,10 +75,7 @@
     <genClasses ecoreClass="MGPL.ecore#//VarProp">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGPL.ecore#//VarProp/extId"/>
     </genClasses>
-    <genClasses ecoreClass="MGPL.ecore#//Expression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//Expression/consequence"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//Expression/alternative"/>
-    </genClasses>
+    <genClasses ecoreClass="MGPL.ecore#//Expression"/>
     <genClasses ecoreClass="MGPL.ecore#//Operation">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MGPL.ecore#//Operation/left"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MGPL.ecore#//Operation/op"/>

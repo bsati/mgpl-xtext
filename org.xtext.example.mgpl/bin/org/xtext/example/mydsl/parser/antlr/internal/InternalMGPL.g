@@ -703,17 +703,17 @@ ruleStmtBlock returns [EObject current=null]
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getStmtBlockAccess().getStatmentsStmtParserRuleCall_1_0());
+					newCompositeNode(grammarAccess.getStmtBlockAccess().getStatementsStmtParserRuleCall_1_0());
 				}
-				lv_statments_1_0=ruleStmt
+				lv_statements_1_0=ruleStmt
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getStmtBlockRule());
 					}
 					add(
 						$current,
-						"statments",
-						lv_statments_1_0,
+						"statements",
+						lv_statements_1_0,
 						"org.xtext.example.mydsl.MGPL.Stmt");
 					afterParserOrEnumRuleCall();
 				}
@@ -801,14 +801,25 @@ ruleIfStmt returns [EObject current=null]
 		{
 			newLeafNode(otherlv_1, grammarAccess.getIfStmtAccess().getLeftParenthesisKeyword_1());
 		}
-		{
-			newCompositeNode(grammarAccess.getIfStmtAccess().getExprParserRuleCall_2());
-		}
-		this_Expr_2=ruleExpr
-		{
-			$current = $this_Expr_2.current;
-			afterParserOrEnumRuleCall();
-		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getIfStmtAccess().getConditionExprParserRuleCall_2_0());
+				}
+				lv_condition_2_0=ruleExpr
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getIfStmtRule());
+					}
+					set(
+						$current,
+						"condition",
+						lv_condition_2_0,
+						"org.xtext.example.mydsl.MGPL.Expr");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
 		otherlv_3=')'
 		{
 			newLeafNode(otherlv_3, grammarAccess.getIfStmtAccess().getRightParenthesisKeyword_3());

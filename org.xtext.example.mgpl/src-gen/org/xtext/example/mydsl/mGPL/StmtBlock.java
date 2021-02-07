@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.mGPL.StmtBlock#getStatments <em>Statments</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.mGPL.StmtBlock#getStatements <em>Statements</em>}</li>
  * </ul>
  *
  * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getStmtBlock()
@@ -26,15 +26,15 @@ import org.eclipse.emf.ecore.EObject;
 public interface StmtBlock extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Statments</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Statements</b></em>' containment reference list.
    * The list contents are of type {@link org.xtext.example.mydsl.mGPL.Stmt}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Statments</em>' containment reference list.
-   * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getStmtBlock_Statments()
+   * @return the value of the '<em>Statements</em>' containment reference list.
+   * @see org.xtext.example.mydsl.mGPL.MGPLPackage#getStmtBlock_Statements()
    * @model containment="true"
    * @generated
    */
-  EList<Stmt> getStatments();
+  EList<Stmt> getStatements();
 
 } // StmtBlock

@@ -8,6 +8,22 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.xtext.example.mydsl.mGPL.Game
+import java.io.File
+import java.nio.file.Files
+import org.eclipse.emf.common.util.EList
+import org.xtext.example.mydsl.mGPL.AttrAss
+import com.google.common.io.Resources
+import java.nio.charset.StandardCharsets
+import org.xtext.example.mydsl.mGPL.VarDecl
+import org.xtext.example.mydsl.mGPL.AnimBlock
+import org.xtext.example.mydsl.mGPL.EventBlock
+import org.xtext.example.mydsl.mGPL.Stmt
+import org.xtext.example.mydsl.mGPL.StmtBlock
+import org.xtext.example.mydsl.mGPL.ObjDecl
+import org.xtext.example.mydsl.mGPL.IfStmt
+import org.xtext.example.mydsl.mGPL.ForStmt
+import org.xtext.example.mydsl.mGPL.AssStmt
+import org.xtext.example.mydsl.mGPL.Var
 
 /**
  * Generates code from your model files on save.
@@ -17,25 +33,335 @@ import org.xtext.example.mydsl.mGPL.Game
 class MGPLGenerator extends AbstractGenerator {
 	
 	private val String basePackage = "com.games.mpgl";
+	MGPLMapperUtil util = new MGPLMapperUtil
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(Greeting)
-//				.map[name]
-//				.join(', '))
 		val game = resource.allContents.head as Game
-		val code = generateGameCode(game)
-		fsa.generateFile("java/src/game.java", code)
+		copyUtilCode(fsa)
+		
+		val htmlCode = generateIndexHtml(game)
+		fsa.generateFile("index.html", htmlCode)
+		
+		val jsCode = generateGameJs(game)
+		fsa.generateFile("game.js", jsCode)
 	}
 	
-	def generateGameCode(Game game) {
+	def generateIndexHtml(Game game) {
 		'''
-		package «basePackage + "." + game.name»;
+		<!DOCTYPE html>
+		<html lang="en">
 		
-		public static void main(String[] args) {
-			
+		<head>
+		    <meta charset="UTF-8">
+		    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		    <link rel="preconnect" href="https://fonts.gstatic.com">
+		    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+		    <link rel="stylesheet" href="style.css">
+		    <script type="text/javascript" src="util.js"></script>
+		
+		    <title>«game.name»</title>
+		    <script type="text/javascript" src="game.js"></script>
+		</head>
+		
+		<body>
+		    <div id="container">
+		        <h2>«game.name»</h2>
+		        <canvas id="gameCanvas" width="«findAttribute(game.attrAssList.attrAss, "width")»" height="«findAttribute(game.attrAssList.attrAss, "height")»"></canvas>
+		    </div>
+		</body>
+		
+		</html>
+		'''
+	}
+	
+	def generateGameJs(Game game) {
+		'''
+		// Global game-framework vars
+		let canvas;
+		let context;
+		
+		let «game.name» = { «generateAttributeAssignments(game.attrAssList.attrAss)» }
+		
+		// Global variables
+		«FOR d : game.decl.filter[it instanceof VarDecl].map[it as VarDecl]»
+			let «d.name»«IF d.value !== null» = «util.resolveExpression(d.value.expr)»«ENDIF»;
+		«ENDFOR»
+		
+		// Animations
+		«FOR animation : game.functions.filter[it instanceof AnimBlock].map[it as AnimBlock]»
+		function «animation.name»(«animation.objName») {
+			«generateStatements(animation.stmtBlock)»
+		}
+		
+		«ENDFOR»
+		«FOR d : game.decl.filter[it instanceof ObjDecl].map[it as ObjDecl]»
+			«IF d.arrSize === 0»
+				let «d.name» = {«generateAttributeAssignments(d.attrAssList.attrAss)», type: «util.mapObjType(d.type)»«IF findAttribute(d.attrAssList.attrAss, "visible") == "undefined"», visible: 1«ENDIF»};
+			«ELSE»
+				let «d.name» = [«generateDefaultArrayDecl(d)»];
+			«ENDIF»
+		«ENDFOR»
+		
+		let gameObjs = [«generateObjectList(game.decl.filter[it instanceof ObjDecl].map[it as ObjDecl])»]
+		
+		// KeyEvents
+		«FOR event : game.functions.filter[it instanceof EventBlock].map[it as EventBlock]»
+		function «event.key»() {
+			«generateStatements(event.stmtBlock)»
+		}
+		
+		«ENDFOR»
+		// KeyMap to work with in the input loop
+		let keyMap = new Map();
+		«FOR event : game.functions.filter[it instanceof EventBlock].map[it as EventBlock]»
+		keyMap.set('«util.mapKey(event.key)»', { keydown: false, onDown: «event.key» });
+		«ENDFOR»
+		
+		«generateStatements(game.initBlock)»
+		
+		window.onload = init;
+		
+		function init() {
+		    canvas = document.getElementById('gameCanvas');
+		    context = canvas.getContext('2d');
+		
+		    window.addEventListener('keydown', (e) => {
+		        if (keyMap.has(e.key)) {
+		            keyMap.get(e.key).keydown = true;
+		        }
+		    }, true);
+		
+		    window.addEventListener('keyup', (e) => {
+		        if (keyMap.has(e.key)) {
+		            keyMap.get(e.key).keydown = false;
+		        }
+		    }, true);
+		
+		    window.requestAnimationFrame(gameLoop);
+		    window.requestAnimationFrame(inputLoop);
+		}
+		
+		function gameLoop() {
+		    // blank fill background
+		    context.fillStyle = 'white';
+		    context.fillRect(0, 0, canvas.width, canvas.height);
+		
+		    // Animate and draw objects
+		    gameObjs.forEach(obj => {
+		    	if (Array.isArray(obj)) {
+		    		obj.forEach(x => {
+		    			if (x.anim) {
+		    				x.anim(x)
+		    			}
+		    		})
+		    	} else {
+		    		if (obj.anim) {
+		    			obj.anim(obj);
+		    		}
+		    	}
+		    	draw(obj);
+		    });
+		
+		    // request next animation frame
+		    window.setTimeout(() => window.requestAnimationFrame(gameLoop), 1000 / «findAttribute(game.attrAssList.attrAss, "speed")»);
+		}
+		
+		function inputLoop() {
+		    // Execute input updates
+		    keyMap.forEach((value, key) => {
+		        if (value.keydown) {
+		            value.onDown();
+		        }
+		    });
+		
+		    // blank fill background
+		    context.fillStyle = 'white';
+		    context.fillRect(0, 0, canvas.width, canvas.height);
+		
+		    // Animate and draw objects
+		    gameObjs.forEach(obj => {
+		        draw(obj);
+		    });
+		
+		    window.setTimeout(() => window.requestAnimationFrame(inputLoop), 1000 / «findAttribute(game.attrAssList.attrAss, "speed")»);
 		}
 		'''
+	}
+	
+	def generateDefaultArrayDecl(ObjDecl decl) {
+		var result = ""
+		for(var i = 0; i < decl.arrSize; i++) {
+			result += '''createDefaultGameObj(«util.mapObjType(decl.type)»)'''
+			if(i != decl.arrSize -1) {
+				result += ", "
+			}
+		}
+		return result
+	}
+	
+	def generateStatements(StmtBlock block) {
+		if(block === null) {
+			return ""
+		}
+		var result = ""
+		for(stmt : block.statements) {
+			if(stmt instanceof IfStmt) {
+				var ifStmt = stmt as IfStmt
+				result += '''
+				if(«util.resolveExpression(ifStmt.condition)») {
+					«generateStatements(ifStmt.consequence)»
+				} «IF ifStmt.alternative !== null» else {
+					«generateStatements(ifStmt.alternative)»
+				} «ENDIF»
+				'''
+			} else if(stmt instanceof ForStmt) {
+				var forStmt = stmt as ForStmt
+				result += '''
+				for(«generateAssignmentStatement(forStmt.initStmt)»; «util.resolveExpression(forStmt.endCondition)»; «generateAssignmentStatement(forStmt.loopStmt)») {
+					«generateStatements(forStmt.stmtBlock)»
+				}
+				'''
+			} else if(stmt instanceof AssStmt) {
+				result += generateAssignmentStatement(stmt as AssStmt) + ";\n"
+			}
+		}
+		return result
+	}
+	
+	def generateAssignmentStatement(AssStmt assignment) {
+		'''«generateVarName(assignment.^var)» = «util.resolveExpression(assignment.assignment)»'''
+	}
+	
+	def generateObjectList(Iterable<ObjDecl> itr) {
+		var result = ""
+		for(var i = 0; i < itr.size; i++) {
+			result += itr.get(i).name
+			if(i != itr.size - 1) {
+				result += ", "
+			}
+		}
+		return result;
+	}
+	
+	def generateVarName(Var v) {
+		'''«v.name»«IF v.varArray !== null»[«util.resolveExpression(v.varArray.indexExpr)»]«ENDIF»«IF v.varProp !== null».«util.mapPropertyName(v.varProp.extId)»«ENDIF»'''
+	}
+	
+	def generateAttributeAssignments(EList<AttrAss> assignments) {
+		var result = ""
+		for(var i = 0; i < assignments.size; i++) {
+			result += generateAttributeAssignment(assignments.get(i))
+			if(i != assignments.size - 1) {
+				result += ", "
+			}
+		}
+		return result;
+	}
+	
+	def generateAttributeAssignment(AttrAss assignment) {
+		'''«util.mapPropertyName(assignment.name)»: «util.resolveExpression(assignment.expr)»'''
+	}
+	
+	def findAttribute(EList<AttrAss> assignments, String... fields) {
+		var AttrAss result;
+		for (f : fields) {
+			result = assignments.findFirst[
+				it.name == f
+			]
+			if (result !== null) {
+				return util.resolveExpression(result.expr)
+			}
+		}
+		return "undefined"
+	}
+	
+	def copyUtilCode(IFileSystemAccess2 fsa) {
+		fsa.generateFile("style.css", "body {
+		    margin: 0;
+		    background-color: #2c4270;
+		    color: #fefefe;
+		    font-family: 'Roboto', sans-serif;
+		}
+		
+		#container {
+		    text-align: center;
+		}
+		
+		#container > h2 {
+		    text-transform: uppercase;
+		}")
+		fsa.generateFile("util.js", "// Simple boundary check that uses axis aligned bounding boxes for overlap detection
+		const touches = (obj1, obj2) => {
+		    return !(obj1.x > (obj2.x + (obj2.w ?? obj2.r)) ||
+		        (obj1.x + (obj1.w ?? obj1.r)) < obj2.x ||
+		        obj1.y > (obj2.y + (obj2.h ?? obj2.r)) ||
+		        (obj1.y + (obj1.h ?? obj1.r)) < obj2.y);
+		}
+		
+		// ObjType enum
+		const objTypes = {
+		    Circle: 'Circle',
+		    Rectangle: 'Rectangle',
+		    Triangle: 'Triangle'
+		}
+		
+		// Draw functions
+		function draw(gameObj) {
+		    if (Array.isArray(gameObj)) {
+		        gameObj.forEach(obj => drawObj(obj));
+		    } else {
+		        drawObj(gameObj);
+		    }
+		}
+		
+		function drawObj(gameObj) {
+		    if (gameObj.visible && gameObj.visible === 1) {
+		        if (gameObj.type === objTypes.Rectangle) {
+		            drawRectangle(gameObj);
+		        } else if (gameObj.type === objTypes.Circle) {
+		            drawCircle(gameObj);
+		        } else if (gameObj.type === objTypes.Triangle) {
+		            drawTriangle(gameObj);
+		        }
+		    }
+		}
+		
+		function drawCircle(circle) {
+		    context.moveTo(circle.x, circle.y);
+		    context.beginPath();
+		    context.arc(circle.x, circle.y, circle.r, 0, 2 * Math.PI);
+		    context.fillStyle = 'black';
+		    context.fill();
+		    context.lineWidth = 1;
+		    context.strokeStyle = 'black';
+		    context.stroke();
+		}
+		
+		function drawRectangle(rectangle) {
+		    context.fillStyle = 'black';
+		    context.fillRect(rectangle.x, rectangle.y, rectangle.w, rectangle.h);
+		}
+		
+		function drawTriangle(triangle) {
+		    context.moveTo(triangle.x, triangle.y)
+		    context.beginPath();
+		    context.lineTo(triangle.x - triangle.w / 2, triangle.y + triangle.h);
+		    context.lineTo(triangle.x + triangle.w / 2, triangle.y + triangle.h);
+		    context.lineTo(triangle.x, triangle.y);
+		
+		    context.fillStyle = 'black';
+		    context.fill();
+		    context.lineWidth = 1;
+		    context.strokeStyle = 'black';
+		    context.stroke();
+		}
+		
+		function createDefaultGameObj(t) {
+		    if (t === objTypes.Rectangle || t === objTypes.Triangle) {
+		        return { x: 0, y: 0, w: 0, h: 0, visible: 1, type: t }
+		    } else {
+		        return { x: 0, y: 0, r: 0, visible: 1, type: t }
+		    }
+		}")
 	}
 }
