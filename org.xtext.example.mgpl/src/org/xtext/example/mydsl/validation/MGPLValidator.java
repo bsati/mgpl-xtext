@@ -22,6 +22,7 @@ public class MGPLValidator extends AbstractMGPLValidator {
 	public static final String MANDATORY_ATTRIBUTE_MISSING = "mandatoryAttributeMissing";
 	public static final String ONLY_CONSTANTS = "onlyConstants";
 	public static final String ILLEGAL_VALUE = "illegalValue";
+	public static final String ILLEGAL_ATTRIBUTE_NAME = "illegalAttributeName";
 	
 //	public static final String INVALID_NAME = "invalidName";
 //

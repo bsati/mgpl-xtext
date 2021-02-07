@@ -10,7 +10,7 @@ import org.eclipse.xtext.validation.AbstractDeclarativeValidator;
 import org.eclipse.xtext.validation.ComposedChecks;
 import org.xtext.example.mydsl.validation.attributes.MGPLAttributeValidator;
 
-@ComposedChecks(validators = {MGPLAttributeValidator.class})
+@ComposedChecks(validators = {MGPLAttributeValidator.class, MGPLVariableValidator.class})
 public abstract class AbstractMGPLValidator extends AbstractDeclarativeValidator {
 	
 	@Override
