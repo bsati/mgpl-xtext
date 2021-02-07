@@ -1,0 +1,14 @@
+body {
+		    margin: 0;
+		    background-color: #2c4270;
+		    color: #fefefe;
+		    font-family: 'Roboto', sans-serif;
+		}
+		
+		#container {
+		    text-align: center;
+		}
+		
+		#container > h2 {
+		    text-transform: uppercase;
+		}
